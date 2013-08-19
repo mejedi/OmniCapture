@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 Nick Zavaritsky. All rights reserved.
 //
 
-#import "SolidBackground.h"
+#import "OCBackgroundView.h"
 
-@implementation SolidBackground
+@implementation OCBackgroundView
 
 - (void)drawRect:(NSRect)dirtyRect
 {

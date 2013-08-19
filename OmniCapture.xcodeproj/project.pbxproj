@@ -7,21 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		905EF90F17B1535D00B8F80E /* SolidBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = 905EF90E17B1535D00B8F80E /* SolidBackground.m */; };
-		905EF91217B157E000B8F80E /* UiLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 905EF91117B157E000B8F80E /* UiLayoutController.m */; };
+		905EF90F17B1535D00B8F80E /* OCBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 905EF90E17B1535D00B8F80E /* OCBackgroundView.m */; };
+		905EF91217B157E000B8F80E /* OCMainLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 905EF91117B157E000B8F80E /* OCMainLayoutController.m */; };
+		90958F9C17C29E3C003B6BFA /* OCMainController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90958F9B17C29E3C003B6BFA /* OCMainController.m */; };
 		90BEAE7D17AD385A00CF9A30 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90BEAE7C17AD385A00CF9A30 /* Cocoa.framework */; };
 		90BEAE8717AD385A00CF9A30 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 90BEAE8517AD385A00CF9A30 /* InfoPlist.strings */; };
 		90BEAE8917AD385A00CF9A30 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BEAE8817AD385A00CF9A30 /* main.m */; };
 		90BEAE8D17AD385A00CF9A30 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 90BEAE8B17AD385A00CF9A30 /* Credits.rtf */; };
 		90BEAE9017AD385A00CF9A30 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BEAE8F17AD385A00CF9A30 /* AppDelegate.m */; };
 		90BEAE9317AD385A00CF9A30 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90BEAE9117AD385A00CF9A30 /* MainMenu.xib */; };
+		90FC2F3E17BCF2BF00F2EFB4 /* OCDeviceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 90FC2F3D17BCF2BF00F2EFB4 /* OCDeviceManager.m */; };
+		90FC2F4117BCF8A500F2EFB4 /* OCDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 90FC2F4017BCF8A500F2EFB4 /* OCDevice.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		905EF90D17B1535D00B8F80E /* SolidBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SolidBackground.h; sourceTree = "<group>"; };
-		905EF90E17B1535D00B8F80E /* SolidBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SolidBackground.m; sourceTree = "<group>"; };
-		905EF91017B157E000B8F80E /* UiLayoutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UiLayoutController.h; sourceTree = "<group>"; };
-		905EF91117B157E000B8F80E /* UiLayoutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UiLayoutController.m; sourceTree = "<group>"; };
+		905EF90D17B1535D00B8F80E /* OCBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCBackgroundView.h; sourceTree = "<group>"; };
+		905EF90E17B1535D00B8F80E /* OCBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCBackgroundView.m; sourceTree = "<group>"; };
+		905EF91017B157E000B8F80E /* OCMainLayoutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMainLayoutController.h; sourceTree = "<group>"; };
+		905EF91117B157E000B8F80E /* OCMainLayoutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCMainLayoutController.m; sourceTree = "<group>"; };
+		908D567717C24D65007828A9 /* OCDeviceManager+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCDeviceManager+Private.h"; sourceTree = "<group>"; };
+		90958F9A17C29E3C003B6BFA /* OCMainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMainController.h; sourceTree = "<group>"; };
+		90958F9B17C29E3C003B6BFA /* OCMainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCMainController.m; sourceTree = "<group>"; };
 		90BEAE7917AD385900CF9A30 /* OmniCapture.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OmniCapture.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90BEAE7C17AD385A00CF9A30 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		90BEAE7F17AD385A00CF9A30 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -35,6 +41,10 @@
 		90BEAE8E17AD385A00CF9A30 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		90BEAE8F17AD385A00CF9A30 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		90BEAE9217AD385A00CF9A30 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		90FC2F3C17BCF2BF00F2EFB4 /* OCDeviceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCDeviceManager.h; sourceTree = "<group>"; };
+		90FC2F3D17BCF2BF00F2EFB4 /* OCDeviceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCDeviceManager.m; sourceTree = "<group>"; };
+		90FC2F3F17BCF8A500F2EFB4 /* OCDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCDevice.h; sourceTree = "<group>"; };
+		90FC2F4017BCF8A500F2EFB4 /* OCDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCDevice.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,11 +101,18 @@
 				90BEAE8E17AD385A00CF9A30 /* AppDelegate.h */,
 				90BEAE8F17AD385A00CF9A30 /* AppDelegate.m */,
 				90BEAE9117AD385A00CF9A30 /* MainMenu.xib */,
-				905EF91017B157E000B8F80E /* UiLayoutController.h */,
-				905EF91117B157E000B8F80E /* UiLayoutController.m */,
+				905EF91017B157E000B8F80E /* OCMainLayoutController.h */,
+				905EF91117B157E000B8F80E /* OCMainLayoutController.m */,
 				90BEAE8317AD385A00CF9A30 /* Supporting Files */,
-				905EF90D17B1535D00B8F80E /* SolidBackground.h */,
-				905EF90E17B1535D00B8F80E /* SolidBackground.m */,
+				905EF90D17B1535D00B8F80E /* OCBackgroundView.h */,
+				905EF90E17B1535D00B8F80E /* OCBackgroundView.m */,
+				90FC2F3C17BCF2BF00F2EFB4 /* OCDeviceManager.h */,
+				90FC2F3D17BCF2BF00F2EFB4 /* OCDeviceManager.m */,
+				908D567717C24D65007828A9 /* OCDeviceManager+Private.h */,
+				90FC2F3F17BCF8A500F2EFB4 /* OCDevice.h */,
+				90FC2F4017BCF8A500F2EFB4 /* OCDevice.m */,
+				90958F9A17C29E3C003B6BFA /* OCMainController.h */,
+				90958F9B17C29E3C003B6BFA /* OCMainController.m */,
 			);
 			path = OmniCapture;
 			sourceTree = "<group>";
@@ -178,8 +195,11 @@
 			files = (
 				90BEAE8917AD385A00CF9A30 /* main.m in Sources */,
 				90BEAE9017AD385A00CF9A30 /* AppDelegate.m in Sources */,
-				905EF90F17B1535D00B8F80E /* SolidBackground.m in Sources */,
-				905EF91217B157E000B8F80E /* UiLayoutController.m in Sources */,
+				905EF90F17B1535D00B8F80E /* OCBackgroundView.m in Sources */,
+				905EF91217B157E000B8F80E /* OCMainLayoutController.m in Sources */,
+				90FC2F3E17BCF2BF00F2EFB4 /* OCDeviceManager.m in Sources */,
+				90FC2F4117BCF8A500F2EFB4 /* OCDevice.m in Sources */,
+				90958F9C17C29E3C003B6BFA /* OCMainController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

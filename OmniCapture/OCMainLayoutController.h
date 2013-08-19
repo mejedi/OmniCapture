@@ -7,16 +7,16 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "SolidBackground.h"
+#import "OCBackgroundView.h"
 
-@interface UiLayoutController : NSObject <NSSplitViewDelegate>
+@interface OCMainLayoutController : NSObject <NSSplitViewDelegate>
 
 /*
  
 +-------------------+------------------------------+--------------------+
 |                   |      deviceSelectionArea     |                    |
 |                   +------------------------------+                    |
-| deviceBrowserArea |                              |  propsEditorArea   |
+| deviceBrowserArea |                              |   inspectorArea    |
 |                   |          contentArea         |                    |
 |                   |                              |                    |
 +-------------------+------------------------------+--------------------+
@@ -37,17 +37,17 @@
  selection area will be used for capture.  Also in this mode selected devices are
  hidden from the device browser.
  
- Properties Editor Area enables to configure a capture device.
+ Inspector enables to configure a capture device.
  
  Gallery Browser Area shows captured assets enabling export and other
  actions with assets.
  
 */
 
-@property (weak) IBOutlet SolidBackground *contentArea;
-@property (weak) IBOutlet SolidBackground *deviceBrowserArea;
-@property (weak) IBOutlet SolidBackground *deviceSelectionArea;
-@property (weak) IBOutlet SolidBackground *propsEditorArea;
-@property (weak) IBOutlet SolidBackground *galleryBrowserArea;
+@property (weak) IBOutlet OCBackgroundView *contentArea;
+@property (weak) IBOutlet OCBackgroundView *deviceBrowserArea;
+@property (weak) IBOutlet OCBackgroundView *deviceSelectionArea;
+@property (weak) IBOutlet OCBackgroundView *inspectorArea;
+@property (weak) IBOutlet OCBackgroundView *galleryBrowserArea;
 
 @end

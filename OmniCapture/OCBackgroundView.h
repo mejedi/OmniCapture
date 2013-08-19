@@ -8,6 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface SolidBackground : NSView
+@interface OCBackgroundView : NSView
 @property IBOutlet NSColor *fillColor;
 @end
