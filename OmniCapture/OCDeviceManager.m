@@ -41,7 +41,7 @@ NSString * const devicesKeyName = @"devices";
 - (id)init {
     self = [super init];
     if (self) {
-        _devices = [NSMutableArray arrayWithCapacity:0];
+        _devices = [NSMutableSet setWithCapacity:0];
         _reusePool = [NSMutableDictionary dictionaryWithCapacity:0];        
     }
     return self;
@@ -51,73 +51,68 @@ NSString * const devicesKeyName = @"devices";
     return [_devices count];
 }
 
-- (id)objectInDevicesAtIndex:(NSUInteger)index {
-    return [_devices objectAtIndex:index];
+- (NSEnumerator *)enumeratorOfDevices {
+    return [_devices objectEnumerator];
+}
+
+- (id)memberOfDevices:(id)object {
+    return [_devices member:object];
 }
 
 - (void)advertiseDevice:(OCDevice *)adevice available:(BOOL)isavail {
+    if ([adevice owner] != self)
+        return NSLog(@"OCDeviceManager advertiseDevice:available: does not own the device");
     
-    if ([adevice owner] != self) {
-        NSLog(@"OCDeviceManager advertiseDevice:available: does not own the device");
-        return;
-    }
-    
-    NSUInteger idx = [_devices indexOfObject:adevice];
+    BOOL listed = [_devices containsObject:adevice];
     
     // device came online
-    if (isavail && idx == NSNotFound) {
+    if (isavail == YES && listed == NO) {
         [self removeDeviceFromReusePool:adevice];
         
-        NSIndexSet *indices = [NSIndexSet indexSetWithIndex:[_devices count]];
+        NSSet *objects = [NSSet setWithObject:adevice];
         
-        [self willChange:NSKeyValueChangeInsertion
-         valuesAtIndexes:indices
-                  forKey:devicesKeyName];
+        [self willChangeValueForKey:devicesKeyName
+                    withSetMutation:NSKeyValueUnionSetMutation
+                       usingObjects:objects];
         
         [_devices addObject:adevice];
         
-        [self didChange:NSKeyValueChangeInsertion
-        valuesAtIndexes:indices
-                 forKey:devicesKeyName];
+        [self didChangeValueForKey:devicesKeyName
+                   withSetMutation:NSKeyValueUnionSetMutation
+                      usingObjects:objects];
         
-        if (_delegate)
-            [_delegate deviceDidBecomeAvailable:adevice];
+        [_delegate deviceDidBecomeAvailable:adevice];
     }
     
     // device went offline
-    if (!isavail && idx != NSNotFound) {
-        if (_delegate)
-            [_delegate deviceWillBecomeUnavailable:adevice];
+    if (isavail == NO && listed == YES) {
+        [_delegate deviceWillBecomeUnavailable:adevice];
         
-        NSIndexSet *indices = [NSIndexSet indexSetWithIndex:idx];
+        NSSet *objects = [NSSet setWithObject:adevice];
         
-        [self willChange:NSKeyValueChangeRemoval
-         valuesAtIndexes:indices
-                  forKey:devicesKeyName];
+        [self willChangeValueForKey:devicesKeyName
+                    withSetMutation:NSKeyValueMinusSetMutation
+                       usingObjects:objects];
         
-        [_devices removeObjectAtIndex:idx];
+        [_devices removeObject:adevice];
         
-        [self didChange:NSKeyValueChangeRemoval
-        valuesAtIndexes:indices
-                forKey:devicesKeyName];
+        [self didChangeValueForKey:devicesKeyName
+                   withSetMutation:NSKeyValueMinusSetMutation
+                      usingObjects:objects];
         
         [self addDeviceToReusePool:adevice];
     }
 }
 
 - (void)addDeviceToReusePool:(OCDevice *)adevice {
-    if ([adevice owner] != self) {
-        NSLog(@"OCDeviceManager addDeviceToReusePool: does not own the device");
-        return;
-    }
+    if ([adevice owner] != self)
+        return NSLog(@"OCDeviceManager addDeviceToReusePool: does not own the device");
     [_reusePool setObject:[OCDeviceReuseNote noteWithDevice:adevice] forKey:[adevice key]];
 }
 
 - (void)removeDeviceFromReusePool:(OCDevice *)adevice {
-    if ([adevice owner] != self) {
-        NSLog(@"OCDeviceManager removeDeviceFromReusePool: does not own the device");
-        return;
-    }
+    if ([adevice owner] != self)
+        return NSLog(@"OCDeviceManager removeDeviceFromReusePool: does not own the device");
     [_reusePool removeObjectForKey:[adevice key]];
 }
 

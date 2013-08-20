@@ -14,6 +14,7 @@
 
 - (id)init {
     self = [super init];
+    _serial = 1;
     return self;
 }
 
@@ -35,19 +36,17 @@
 }
 
 - (IBAction)addDevBtnAction:(id)sender {
-    OCDeviceManager *manager = [self deviceManager];
-    
-    OCDevice *foobar = [manager reuseDeviceWithKey:@"" class:[OCDevice class]];
-    [foobar setName:@"foobar"];
+    OCDevice *foobar = [[self deviceManager] reuseDeviceWithKey:@"" class:[OCDevice class]];
+    if (_serial == 1)
+        [foobar setName:@"foobar"];
+    else
+        [foobar setName:[NSString stringWithFormat:@"foobar (%d)", _serial]];
+    _serial++;
     [foobar setAvailable:YES];
 }
 
 - (IBAction)removeDevBtnAction:(id)sender {
-    OCDeviceManager *manager = [self deviceManager];
-   // NSArray *devices = [[self deviceManager] devices];
-    if ([manager countOfDevices] > 0) {
-        OCDevice *dev = [manager objectInDevicesAtIndex:0];
-        [dev setAvailable:NO];
-    }
+    [[[[self deviceManager] enumeratorOfDevices] nextObject] setAvailable:NO];
 }
+
 @end

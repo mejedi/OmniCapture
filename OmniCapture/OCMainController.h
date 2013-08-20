@@ -9,8 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "OCDeviceManager.h"
 
-@interface OCMainController : NSObject
-
+@interface OCMainController : NSObject {
+    int _serial;
+}
 - (IBAction)addDevBtnAction:(id)sender;
 - (IBAction)removeDevBtnAction:(id)sender;
 @property (weak) IBOutlet OCDeviceManager *deviceManager;

@@ -20,14 +20,15 @@
 // You probably should not create more than a single OCDeviceManager instance.
 @interface OCDeviceManager : NSObject {
     __weak id<OCDeviceManagerDelegate> _delegate;
-    NSMutableArray *_devices;
+    NSMutableSet *_devices;
     NSMutableDictionary *_reusePool;
 }
 
 @property (weak) id<OCDeviceManagerDelegate> delegate;
 
-// Currently available capture devices. (KVO-compliant)
+// Currently available capture devices. (KVC/KVO-compliant)
 - (NSUInteger)countOfDevices;
-- (id)objectInDevicesAtIndex:(NSUInteger)index;
+- (NSEnumerator *)enumeratorOfDevices;
+- (id)memberOfDevices:(id)object;
 
 @end
