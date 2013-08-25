@@ -11,6 +11,9 @@
 
 @interface OCMainController : NSObject {
     int _serial;
+    NSTimer *_timer;
+    OCDevice *_blinky;
+    NSTimer *_blinkyNameTimer;
 }
 - (IBAction)addDevBtnAction:(id)sender;
 - (IBAction)removeDevBtnAction:(id)sender;

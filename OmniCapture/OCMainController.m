@@ -32,6 +32,8 @@
     OCDevice *rex = [manager reuseDeviceWithKey:@"" class:[OCDevice class]];
     [rex setName:@"rex"];
     [rex setAvailable:YES];
+    
+    _timer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(timerDidFire:) userInfo:nil repeats:YES];
 
 }
 
@@ -47,6 +49,31 @@
 
 - (IBAction)removeDevBtnAction:(id)sender {
     [[[[self deviceManager] enumeratorOfDevices] nextObject] setAvailable:NO];
+}
+
+- (void)timerDidFire:(NSTimer *)timer {
+    [_blinkyNameTimer invalidate];
+    _blinkyNameTimer = nil;
+    if (_blinky) {
+        [_blinky setAvailable:NO];
+        _blinky = nil;
+    } else {
+        _blinky = [[self deviceManager] reuseDeviceWithKey:@"blinky" class:[OCDevice class]];
+        [_blinky setName:@"blinky"];
+        [_blinky setAvailable:YES];
+        _blinkyNameTimer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(blinkyNameTimerDidFire:) userInfo:nil repeats:YES];
+    }
+}
+
+- (void)blinkyNameTimerDidFire:(NSTimer *)timer {
+    NSString *name = [_blinky name];
+    NSUInteger len = [name length];
+    if (len == 0)
+        return;
+    if ([name characterAtIndex:len-1] == '_')
+        [_blinky setName:[name substringToIndex:len-1]];
+    else
+        [_blinky setName:[name stringByAppendingString:@"_"]];
 }
 
 @end
