@@ -16,6 +16,8 @@
 		90BEAE8D17AD385A00CF9A30 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 90BEAE8B17AD385A00CF9A30 /* Credits.rtf */; };
 		90BEAE9017AD385A00CF9A30 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BEAE8F17AD385A00CF9A30 /* AppDelegate.m */; };
 		90BEAE9317AD385A00CF9A30 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90BEAE9117AD385A00CF9A30 /* MainMenu.xib */; };
+		90D1B63D17CE9CA80033869C /* Cam.png in Resources */ = {isa = PBXBuildFile; fileRef = 90D1B63B17CE9CA80033869C /* Cam.png */; };
+		90D1B64017CF1A8A0033869C /* capt0001.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 90D1B63E17CF1A8A0033869C /* capt0001.jpg */; };
 		90FC2F3E17BCF2BF00F2EFB4 /* OCDeviceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 90FC2F3D17BCF2BF00F2EFB4 /* OCDeviceManager.m */; };
 		90FC2F4117BCF8A500F2EFB4 /* OCDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 90FC2F4017BCF8A500F2EFB4 /* OCDevice.m */; };
 /* End PBXBuildFile section */
@@ -41,6 +43,8 @@
 		90BEAE8E17AD385A00CF9A30 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		90BEAE8F17AD385A00CF9A30 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		90BEAE9217AD385A00CF9A30 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		90D1B63C17CE9CA80033869C /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/Cam.png; sourceTree = "<group>"; };
+		90D1B63F17CF1A8A0033869C /* en */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = en; path = en.lproj/capt0001.jpg; sourceTree = "<group>"; };
 		90FC2F3C17BCF2BF00F2EFB4 /* OCDeviceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCDeviceManager.h; sourceTree = "<group>"; };
 		90FC2F3D17BCF2BF00F2EFB4 /* OCDeviceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCDeviceManager.m; sourceTree = "<group>"; };
 		90FC2F3F17BCF8A500F2EFB4 /* OCDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCDevice.h; sourceTree = "<group>"; };
@@ -120,6 +124,8 @@
 		90BEAE8317AD385A00CF9A30 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				90D1B63E17CF1A8A0033869C /* capt0001.jpg */,
+				90D1B63B17CE9CA80033869C /* Cam.png */,
 				90BEAE8417AD385A00CF9A30 /* OmniCapture-Info.plist */,
 				90BEAE8517AD385A00CF9A30 /* InfoPlist.strings */,
 				90BEAE8817AD385A00CF9A30 /* main.m */,
@@ -183,6 +189,8 @@
 				90BEAE8717AD385A00CF9A30 /* InfoPlist.strings in Resources */,
 				90BEAE8D17AD385A00CF9A30 /* Credits.rtf in Resources */,
 				90BEAE9317AD385A00CF9A30 /* MainMenu.xib in Resources */,
+				90D1B63D17CE9CA80033869C /* Cam.png in Resources */,
+				90D1B64017CF1A8A0033869C /* capt0001.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -228,6 +236,22 @@
 				90BEAE9217AD385A00CF9A30 /* en */,
 			);
 			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		90D1B63B17CE9CA80033869C /* Cam.png */ = {
+			isa = PBXVariantGroup;
+			children = (
+				90D1B63C17CE9CA80033869C /* en */,
+			);
+			name = Cam.png;
+			sourceTree = "<group>";
+		};
+		90D1B63E17CF1A8A0033869C /* capt0001.jpg */ = {
+			isa = PBXVariantGroup;
+			children = (
+				90D1B63F17CF1A8A0033869C /* en */,
+			);
+			name = capt0001.jpg;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

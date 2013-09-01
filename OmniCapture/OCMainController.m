@@ -22,15 +22,15 @@
     OCDeviceManager *manager = [self deviceManager];
 
     OCDevice *fido = [manager reuseDeviceWithKey:@"" class:[OCDevice class]];
-    [fido setName:@"fido"];
+    [fido setName:@"PowerShot A640"];
     [fido setAvailable:YES];
     
     OCDevice *rover = [manager reuseDeviceWithKey:@"" class:[OCDevice class]];
-    [rover setName:@"rover"];
+    [rover setName:@"Nikon"];
     [rover setAvailable:YES];
     
     OCDevice *rex = [manager reuseDeviceWithKey:@"" class:[OCDevice class]];
-    [rex setName:@"rex"];
+    [rex setName:@"iSight Camera"];
     [rex setAvailable:YES];
     
     _timer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(timerDidFire:) userInfo:nil repeats:YES];
@@ -40,9 +40,9 @@
 - (IBAction)addDevBtnAction:(id)sender {
     OCDevice *foobar = [[self deviceManager] reuseDeviceWithKey:@"" class:[OCDevice class]];
     if (_serial == 1)
-        [foobar setName:@"foobar"];
+        [foobar setName:@"Foobar"];
     else
-        [foobar setName:[NSString stringWithFormat:@"foobar (%d)", _serial]];
+        [foobar setName:[NSString stringWithFormat:@"Foobar (%d)", _serial]];
     _serial++;
     [foobar setAvailable:YES];
 }
@@ -59,7 +59,7 @@
         _blinky = nil;
     } else {
         _blinky = [[self deviceManager] reuseDeviceWithKey:@"blinky" class:[OCDevice class]];
-        [_blinky setName:@"blinky"];
+        [_blinky setName:@"Blinky"];
         [_blinky setAvailable:YES];
         _blinkyNameTimer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(blinkyNameTimerDidFire:) userInfo:nil repeats:YES];
     }
