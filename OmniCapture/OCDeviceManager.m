@@ -13,36 +13,13 @@
 // Key name for KVO notifications
 NSString * const devicesKeyName = @"devices";
 
-// This is necessary to implement a weak collection of devices for reuse.
-// As soon as the device refcount drops down to 0 the device is deallocated even
-// if it is a member of the reuse pool.
-// Reuse pool solves the following problem:
-// 1) It would be a waste to keep all disconnected device instances
-// 2) However if someone is interested in the particular device the instance
-//    should survive. It is reused when that particular device comes back
-//
-@interface OCDeviceReuseNote: NSObject {
-    __weak OCDevice *_device;
-}
-+ (OCDeviceReuseNote *)noteWithDevice:(OCDevice *)adevice;
-@property (weak) OCDevice *device;
-@end
-
-@implementation OCDeviceReuseNote
-+ (OCDeviceReuseNote *)noteWithDevice:(OCDevice *)adevice {
-    OCDeviceReuseNote *note = [[self alloc] init];
-    [note setDevice:adevice];
-    return note;
-}
-@end
-
 @implementation OCDeviceManager
 
 - (id)init {
     self = [super init];
     if (self) {
         _devices = [NSMutableSet setWithCapacity:0];
-        _reusePool = [NSMutableDictionary dictionaryWithCapacity:0];        
+        _reusePool = [NSMapTable strongToWeakObjectsMapTable];
     }
     return self;
 }
@@ -107,18 +84,27 @@ NSString * const devicesKeyName = @"devices";
 - (void)addDeviceToReusePool:(OCDevice *)adevice {
     if ([adevice owner] != self)
         return NSLog(@"OCDeviceManager addDeviceToReusePool: does not own the device");
-    [_reusePool setObject:[OCDeviceReuseNote noteWithDevice:adevice] forKey:[adevice key]];
+    NSString *key = [adevice key];
+    if (!key)
+        return;
+    [_reusePool setObject:adevice forKey:key];
 }
 
 - (void)removeDeviceFromReusePool:(OCDevice *)adevice {
     if ([adevice owner] != self)
         return NSLog(@"OCDeviceManager removeDeviceFromReusePool: does not own the device");
-    [_reusePool removeObjectForKey:[adevice key]];
+    NSString *key = [adevice key];
+    if (!key)
+        return;
+    [_reusePool removeObjectForKey:key];
 }
 
 - (id)reuseDeviceWithKey:(NSString *)akey class:(Class)class {
-    id adevice = [[_reusePool objectForKey:akey] device];
-    if ([adevice class] == class) {
+    id adevice = nil;
+    if (akey) {
+        adevice = [_reusePool objectForKey:akey];
+    }
+    if ([adevice isKindOfClass:class]) {
         [self removeDeviceFromReusePool:adevice];
         return adevice;
     } else {

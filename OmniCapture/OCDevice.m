@@ -12,10 +12,6 @@
 
 @implementation OCDevice
 
-- (void)dealloc {
-    [_owner removeDeviceFromReusePool:self];
-}
-
 - (id)init {
     @throw [NSException exceptionWithName:@"OCBadInitCall"
                                    reason:@"use initWithOwner:key: to init OCDevice"

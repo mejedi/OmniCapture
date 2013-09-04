@@ -11,6 +11,4 @@
 @interface OCDeviceManager ()
 - (void)advertiseDevice:(OCDevice *)adevice available:(BOOL)isavail;
 - (id)reuseDeviceWithKey:(NSString *)akey class:(Class)class;
-- (void)addDeviceToReusePool:(OCDevice *)adevice;
-- (void)removeDeviceFromReusePool:(OCDevice *)adevice;
 @end

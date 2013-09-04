@@ -11,7 +11,6 @@
 			<string key="NS.object.0">3084</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
-			<string>NSArrayController</string>
 			<string>NSButton</string>
 			<string>NSButtonCell</string>
 			<string>NSCustomObject</string>
@@ -34,6 +33,7 @@
 			<string>NSToolbarFlexibleSpaceItem</string>
 			<string>NSToolbarItem</string>
 			<string>NSToolbarSpaceItem</string>
+			<string>NSUserDefaultsController</string>
 			<string>NSView</string>
 			<string>NSWindowTemplate</string>
 		</array>
@@ -1940,19 +1940,11 @@
 			<object class="NSCustomObject" id="673243330">
 				<string key="NSClassName">OCDeviceManager</string>
 			</object>
-			<object class="NSArrayController" id="748029033">
-				<array class="NSMutableArray" key="NSDeclaredKeys">
-					<string>name</string>
-				</array>
-				<string key="NSObjectClassName">OCDevice</string>
-				<object class="_NSManagedProxy" key="_NSManagedProxy"/>
-				<bool key="NSPreservesSelection">YES</bool>
-				<bool key="NSSelectsInsertedObjects">YES</bool>
-				<bool key="NSFilterRestrictsInsertion">YES</bool>
-				<bool key="NSClearsFilterPredicateOnInsertion">YES</bool>
-			</object>
 			<object class="NSCustomObject" id="830602742">
 				<string key="NSClassName">OCMainController</string>
+			</object>
+			<object class="NSUserDefaultsController" id="985581176">
+				<bool key="NSSharedInstance">YES</bool>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -2702,36 +2694,28 @@
 					<int key="connectionID">772</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">contentSet: devices</string>
-						<reference key="source" ref="748029033"/>
-						<reference key="destination" ref="673243330"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="748029033"/>
-							<reference key="NSDestination" ref="673243330"/>
-							<string key="NSLabel">contentSet: devices</string>
-							<string key="NSBinding">contentSet</string>
-							<string key="NSKeyPath">devices</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="673243330"/>
+						<reference key="destination" ref="830602742"/>
 					</object>
-					<int key="connectionID">825</int>
+					<int key="connectionID">861</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">content: arrangedObjects</string>
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">dataSource</string>
 						<reference key="source" ref="263823764"/>
-						<reference key="destination" ref="748029033"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="263823764"/>
-							<reference key="NSDestination" ref="748029033"/>
-							<string key="NSLabel">content: arrangedObjects</string>
-							<string key="NSBinding">content</string>
-							<string key="NSKeyPath">arrangedObjects</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
+						<reference key="destination" ref="830602742"/>
 					</object>
-					<int key="connectionID">838</int>
+					<int key="connectionID">862</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="263823764"/>
+						<reference key="destination" ref="830602742"/>
+					</object>
+					<int key="connectionID">865</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -2758,20 +2742,12 @@
 					<int key="connectionID">820</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: arrangedObjects.@count</string>
-						<reference key="source" ref="524325893"/>
-						<reference key="destination" ref="748029033"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="524325893"/>
-							<reference key="NSDestination" ref="748029033"/>
-							<string key="NSLabel">enabled: arrangedObjects.@count</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">arrangedObjects.@count</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">devTableView</string>
+						<reference key="source" ref="830602742"/>
+						<reference key="destination" ref="263823764"/>
 					</object>
-					<int key="connectionID">828</int>
+					<int key="connectionID">866</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -2822,7 +2798,7 @@
 									</set>
 									<string key="NSFrame">{{8, 0}, {32, 32}}</string>
 									<reference key="NSSuperview" ref="816754740"/>
-									<reference key="NSNextKeyView" ref="955303027"/>
+									<reference key="NSNextKeyView"/>
 									<string key="NSReuseIdentifierKey">_NS:9</string>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSImageCell" key="NSCell" id="405890602">
@@ -2844,6 +2820,7 @@
 							</array>
 							<string key="NSFrame">{{1, 1}, {252, 32}}</string>
 							<reference key="NSNextKeyView" ref="61990615"/>
+							<bool key="NSViewIsLayerTreeHost">YES</bool>
 							<double key="NSViewAlphaValue">0.99999999999999989</double>
 						</object>
 						<reference key="destination" ref="955303027"/>
@@ -2872,23 +2849,23 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">841</int>
+					<int key="connectionID">864</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: arrangedObjects.@count</string>
+						<string key="label">hidden: haveVisibleItems</string>
 						<reference key="source" ref="771836924"/>
-						<reference key="destination" ref="748029033"/>
+						<reference key="destination" ref="830602742"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="771836924"/>
-							<reference key="NSDestination" ref="748029033"/>
-							<string key="NSLabel">hidden: arrangedObjects.@count</string>
+							<reference key="NSDestination" ref="830602742"/>
+							<string key="NSLabel">hidden: haveVisibleItems</string>
 							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">arrangedObjects.@count</string>
+							<string key="NSKeyPath">haveVisibleItems</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">851</int>
+					<int key="connectionID">880</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -4119,11 +4096,6 @@
 						<reference key="parent" ref="0"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">785</int>
-						<reference key="object" ref="748029033"/>
-						<reference key="parent" ref="0"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">790</int>
 						<reference key="object" ref="366296855"/>
 						<array class="NSMutableArray" key="children">
@@ -4292,6 +4264,11 @@
 						<int key="objectID">860</int>
 						<reference key="object" ref="1033516360"/>
 						<reference key="parent" ref="764130016"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">867</int>
+						<reference key="object" ref="985581176"/>
+						<reference key="parent" ref="0"/>
 					</object>
 				</array>
 			</object>
@@ -4543,7 +4520,6 @@
 				<string key="77.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="78.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="784.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="785.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="79.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="790.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="791.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4565,6 +4541,7 @@
 				<string key="82.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="83.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="831.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="831.userInterfaceItemIdentifier">DeviceCell</string>
 				<string key="832.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="833.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="842.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4586,13 +4563,14 @@
 				<string key="856.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="859.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="860.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="867.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="92.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">860</int>
+			<int key="maxID">880</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4637,6 +4615,17 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">OCDeviceManager</string>
 					<string key="superclassName">NSObject</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">delegate</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">delegate</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">delegate</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/OCDeviceManager.h</string>
@@ -4659,17 +4648,20 @@
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">deviceManager</string>
-						<string key="NS.object.0">OCDeviceManager</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">deviceManager</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="devTableView">NSTableView</string>
+						<string key="deviceManager">OCDeviceManager</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="devTableView">
+							<string key="name">devTableView</string>
+							<string key="candidateClassName">NSTableView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="deviceManager">
 							<string key="name">deviceManager</string>
 							<string key="candidateClassName">OCDeviceManager</string>
 						</object>
-					</object>
+					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/OCMainController.h</string>
