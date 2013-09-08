@@ -50,10 +50,7 @@
 
 - (IBAction)addDevBtnAction:(id)sender {
     OCDevice *foobar = [[self deviceManager] reuseDeviceWithKey:nil class:[OCDevice class]];
-    if (_serial == 1)
-        [foobar setName:@"Foobar"];
-    else
-        [foobar setName:[NSString stringWithFormat:@"Foobar (%d)", _serial]];
+    [foobar setName:[NSString stringWithFormat:@"Camera #%d", _serial]];
     _serial++;
     [foobar setAvailable:YES];
 }
@@ -70,13 +67,15 @@
         _blinky = nil;
     } else {
         _blinky = [[self deviceManager] reuseDeviceWithKey:@"blinky" class:[OCDevice class]];
-        [_blinky setName:@"Blinky"];
+        [_blinky setName:@"PowerShot A640"];
+        [_blinky setError:YES];
         [_blinky setAvailable:YES];
         _blinkyNameTimer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(blinkyNameTimerDidFire:) userInfo:nil repeats:YES];
     }
 }
 
 - (void)blinkyNameTimerDidFire:(NSTimer *)timer {
+#if 0
     NSString *name = [_blinky name];
     NSUInteger len = [name length];
     if (len == 0)
@@ -85,6 +84,7 @@
         [_blinky setName:[name substringToIndex:len-1]];
     else
         [_blinky setName:[name stringByAppendingString:@"_"]];
+#endif
 }
 
 //
@@ -95,7 +95,7 @@
     BOOL willEmitNotifications = [_devList count] == 0;
     
     if (willEmitNotifications) {
-        [self willChangeValueForKey:@"haveVisibleItems"];
+        [self willChangeValueForKey:@"hasVisibleItems"];
     }
     
     NSUInteger idx = [_devList indexOfObject:adevice];
@@ -105,7 +105,7 @@
     if (idx == NSNotFound) {
         idx = [_devList count];
     
-        NSIndexSet *idxs = [NSIndexSet indexSetWithIndex:idx];
+        NSIndexSet *idxs = [NSIndexSet indexSetWithIndex:idx+1];
         [_devList insertObject:adevice atIndex:idx];
     
         [NSAnimationContext beginGrouping];
@@ -115,7 +115,7 @@
     }
     
     if (willEmitNotifications) {
-        [self didChangeValueForKey:@"haveVisibleItems"];
+        [self didChangeValueForKey:@"hasVisibleItems"];
     }
     
     NSView *cellView = [self viewForDevice:adevice];
@@ -145,19 +145,22 @@
 
 -(void)devCleanupTimerDidFire:(NSTimer *)timer {
     OCDevice *device = [timer userInfo];
+    if ([device available]) {
+        return;
+    }
 
     NSUInteger idx = [_devList indexOfObject:device];
     NSAssert(idx != NSNotFound, @"");
-    NSIndexSet *idxs = [NSIndexSet indexSetWithIndex:idx];
+    NSIndexSet *idxs = [NSIndexSet indexSetWithIndex:idx+1];
     BOOL willEmitNotifications = [_devList count]==1;
     
     if (willEmitNotifications) {
-        [self willChangeValueForKey:@"haveVisibleItems"];
+        [self willChangeValueForKey:@"hasVisibleItems"];
     }
     [_devList removeObjectAtIndex:idx];
     [_devTableView removeRowsAtIndexes:idxs withAnimation:NSTableViewAnimationSlideUp];
     if (willEmitNotifications) {
-        [self didChangeValueForKey:@"haveVisibleItems"];
+        [self didChangeValueForKey:@"hasVisibleItems"];
     }
 }
 
@@ -167,11 +170,11 @@
 //
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {
-    return [_devList count];
+    return [_devList count]+1;
 }
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
-    return [_devList objectAtIndex:rowIndex];
+    return rowIndex ? [_devList objectAtIndex:rowIndex-1] : nil;
 }
 
 //
@@ -179,7 +182,10 @@
 //
 
 -(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
-    id item = [_devList objectAtIndex:row];
+    if (row == 0)
+        return [_devTableView makeViewWithIdentifier:@"HeaderCell" owner:self];;
+    
+    id item = [_devList objectAtIndex:row-1];
     
     if ([item isKindOfClass:[OCDevice class]]) {
         return [self viewForDevice:item];
@@ -214,6 +220,10 @@
     [[rowView viewAtColumn:0] setObjectValue:nil];
 }
 
+-(CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
+    return row ? 32 : 25;
+}
+
 //
 // Misc (animation)
 //
@@ -241,8 +251,11 @@
     return animation;
 }
 
--(BOOL)haveVisibleItems {
+-(BOOL)hasVisibleItems {
     return [_devList count]>0;
 }
 
+- (IBAction)showErrorBtnAction:(id)sender {
+    [_errorPopover showRelativeToRect:[sender bounds] ofView:sender preferredEdge:NSMaxYEdge];
+}
 @end

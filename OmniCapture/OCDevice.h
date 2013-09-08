@@ -37,4 +37,6 @@
 // The object should be fully initialized before doing that.
 @property (readwrite) BOOL available;
 
+@property (readwrite) BOOL error;
+
 @end

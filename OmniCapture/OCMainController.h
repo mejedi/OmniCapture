@@ -21,8 +21,11 @@
 }
 - (IBAction)addDevBtnAction:(id)sender;
 - (IBAction)removeDevBtnAction:(id)sender;
+- (IBAction)showErrorBtnAction:(id)sender;
 @property (weak) IBOutlet OCDeviceManager *deviceManager;
 @property (weak) IBOutlet NSTableView *devTableView;
-@property (readonly) BOOL haveVisibleItems;
+@property (readonly) BOOL hasVisibleItems;
+@property (weak) IBOutlet NSPopover *errorPopover;
+
 
 @end
