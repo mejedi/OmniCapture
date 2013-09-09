@@ -9,23 +9,22 @@
 #import <Foundation/Foundation.h>
 #import "OCDeviceManager.h"
 
-@interface OCMainController : NSObject<OCDeviceManagerDelegate, NSTableViewDataSource, NSTableViewDelegate> {
+@interface OCMainController : NSObject<OCDeviceManagerDelegate, NSOutlineViewDataSource, NSOutlineViewDelegate> {
     int _serial;
     NSTimer *_timer;
     OCDevice *_blinky;
     NSTimer *_blinkyNameTimer;
 
-    NSMutableArray *_devList;
-    NSMapTable *_devCellViews;
+    NSMutableArray *_groups;
     NSMapTable *_devCleanupTimers;
 }
+
+@property (weak) IBOutlet OCDeviceManager *deviceManager;
+@property (weak) IBOutlet NSOutlineView *devOutlineView;
+@property (weak) IBOutlet NSPopover *errorPopover;
+
 - (IBAction)addDevBtnAction:(id)sender;
 - (IBAction)removeDevBtnAction:(id)sender;
 - (IBAction)showErrorBtnAction:(id)sender;
-@property (weak) IBOutlet OCDeviceManager *deviceManager;
-@property (weak) IBOutlet NSTableView *devTableView;
-@property (readonly) BOOL hasVisibleItems;
-@property (weak) IBOutlet NSPopover *errorPopover;
-
 
 @end

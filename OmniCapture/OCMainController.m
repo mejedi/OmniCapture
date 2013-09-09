@@ -11,6 +11,24 @@
 #import "OCMainController.h"
 #import "OCDeviceManager+Private.h"
 #import "OCDevice.h"
+#import "NSOutlineView+OCExtensions.h"
+
+@interface _OCDeviceGroup : NSObject
+@property (readonly) NSMutableArray *devices;
+@property (readwrite) NSString *name;
+@end
+
+@implementation _OCDeviceGroup
+- (id)initWithName:(NSString *)name {
+    self = [super init];
+    if (self) {
+        _devices = [NSMutableArray arrayWithCapacity:0];
+        _name = name;
+    }
+    return self;
+}
+
+@end
 
 @implementation OCMainController
 
@@ -19,8 +37,10 @@
     if (self) {
         _serial = 1;
         
-        _devList = [NSMutableArray arrayWithCapacity:0];
-        _devCellViews = [NSMapTable weakToStrongObjectsMapTable];
+        _groups = [NSMutableArray arrayWithCapacity:1];
+        [_groups addObject:[[_OCDeviceGroup alloc] initWithName:@"CAMERAS"]];
+        [_groups addObject:[[_OCDeviceGroup alloc] initWithName:@"TESTING"]];
+        
         _devCleanupTimers = [NSMapTable weakToWeakObjectsMapTable];
     }
     return self;
@@ -45,7 +65,9 @@
     [rex setAvailable:YES];
 #endif
     _timer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(timerDidFire:) userInfo:nil repeats:YES];
-
+    NSOutlineView *outlineView = [self devOutlineView];
+    [outlineView reloadData];
+    [outlineView expandItem:nil expandChildren:YES];
 }
 
 - (IBAction)addDevBtnAction:(id)sender {
@@ -92,33 +114,24 @@
 //
 
 - (void)deviceDidBecomeAvailable:(OCDevice *)adevice {
-    BOOL willEmitNotifications = [_devList count] == 0;
-    
-    if (willEmitNotifications) {
-        [self willChangeValueForKey:@"hasVisibleItems"];
-    }
-    
-    NSUInteger idx = [_devList indexOfObject:adevice];
+    _OCDeviceGroup *group = [_groups objectAtIndex:0];
+    NSUInteger idx = [[group devices] indexOfObject:adevice];
     
     [[_devCleanupTimers objectForKey:adevice]invalidate];
     
     if (idx == NSNotFound) {
-        idx = [_devList count];
+        idx = [[group devices] count];
     
-        NSIndexSet *idxs = [NSIndexSet indexSetWithIndex:idx+1];
-        [_devList insertObject:adevice atIndex:idx];
+        NSIndexSet *idxs = [NSIndexSet indexSetWithIndex:idx];
+        [[group devices] insertObject:adevice atIndex:idx];
     
         [NSAnimationContext beginGrouping];
         [[NSAnimationContext currentContext] setDuration:.1];
-        [_devTableView insertRowsAtIndexes:idxs withAnimation:NSTableViewAnimationSlideDown];
+        [[self devOutlineView] insertItemsAtIndexes:idxs inParent:group withAnimation:NSTableViewAnimationSlideDown];
         [NSAnimationContext endGrouping];
     }
     
-    if (willEmitNotifications) {
-        [self didChangeValueForKey:@"hasVisibleItems"];
-    }
-    
-    NSView *cellView = [self viewForDevice:adevice];
+    NSView *cellView = [[self devOutlineView] oc_viewAtColumn:0 item:adevice makeIfNecessary:NO];
     [cellView setAlphaValue:.30];
     
     NSDictionary *animations = [NSDictionary
@@ -132,7 +145,7 @@
 
 - (void)deviceWillBecomeUnavailable:(OCDevice *)adevice {
     
-    NSView *cellView = [self viewForDevice:adevice];
+    NSView *cellView = [[self devOutlineView] oc_viewAtColumn:0 item:adevice makeIfNecessary:NO];
     [[cellView animator] setAlphaValue:.30];
     
     NSTimer *cleanupTimer = [NSTimer scheduledTimerWithTimeInterval:2.0
@@ -149,79 +162,80 @@
         return;
     }
 
-    NSUInteger idx = [_devList indexOfObject:device];
+    _OCDeviceGroup *group = [_groups objectAtIndex:0];
+    NSUInteger idx = [[group devices] indexOfObject:device];
     NSAssert(idx != NSNotFound, @"");
-    NSIndexSet *idxs = [NSIndexSet indexSetWithIndex:idx+1];
-    BOOL willEmitNotifications = [_devList count]==1;
-    
-    if (willEmitNotifications) {
-        [self willChangeValueForKey:@"hasVisibleItems"];
-    }
-    [_devList removeObjectAtIndex:idx];
-    [_devTableView removeRowsAtIndexes:idxs withAnimation:NSTableViewAnimationSlideUp];
-    if (willEmitNotifications) {
-        [self didChangeValueForKey:@"hasVisibleItems"];
-    }
+    NSIndexSet *idxs = [NSIndexSet indexSetWithIndex:idx];
+    [[group devices] removeObjectAtIndex:idx];
+    [[self devOutlineView] removeItemsAtIndexes:idxs inParent:group withAnimation:NSTableViewAnimationSlideUp];
 }
 
 
 //
-// NSTableViewDataSource stuff
+// NSOutlineViewDataSource stuff
 //
 
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {
-    return [_devList count]+1;
+-(id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
+    return item;
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {
-    return rowIndex ? [_devList objectAtIndex:rowIndex-1] : nil;
+-(BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {
+    if ([item isKindOfClass:[_OCDeviceGroup class]])
+        return YES;
+    return NO;
 }
 
-//
-// NSTableViewDelegate stuff
-//
+-(NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
+    /* toplevel */
+    if (item == nil)
+        return [_groups count];
+    /* a device group */
+    if ([item isKindOfClass:[_OCDeviceGroup class]])
+        return [[item devices] count];
+    /* a device */
+    if ([item isKindOfClass:[OCDevice class]])
+        return 0;
+    NSLog(@"Unexpected kind of entity in outline view: %@", item);
+    return 0;
+}
 
--(NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
-    if (row == 0)
-        return [_devTableView makeViewWithIdentifier:@"HeaderCell" owner:self];;
-    
-    id item = [_devList objectAtIndex:row-1];
-    
-    if ([item isKindOfClass:[OCDevice class]]) {
-        return [self viewForDevice:item];
-    }
+-(id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
+    /* toplevel */
+    if (item == nil)
+        return [_groups objectAtIndex:index];
+    /* a device group */
+    if ([item isKindOfClass:[_OCDeviceGroup class]])
+        return [[item devices] objectAtIndex:index];
+    NSLog(@"Unexpected kind of entity in outline view: %@", item);
     return nil;
 }
 
--(NSView *)viewForDevice:(OCDevice *)aDevice {
-    // We are managing DeviceCells manually instead of relying on the reuse queue (hence
-    // reseting the identifier below).  The intention is to provide a unique view for each
-    // OCDevice with the same lifetime as the device itself.  Makes animation easy.
-    // (Consider a cell with animated contents. Animating views is easy but doing animations
-    // when views are allocated on demand is complex. What if the view was allocated when
-    // the content animation had played halfway through?)
-    //
-    // The lifetime of a DeviceCell view is bound to the corresponding OCDevice by the means
-    // of NSMapTable (maps a OCDevice pointer (weak) to the corresponding NSView (strong)). The
-    // corresponding table entry is automatically removed when an OCDevice is deallocated.
-    NSView *aView = [_devCellViews objectForKey:aDevice];
-    if (!aView) {
-        aView = [_devTableView makeViewWithIdentifier:@"DeviceCell" owner:self];
-        [aView setIdentifier:nil];
-        [_devCellViews setObject:aView forKey:aDevice];
-    }
-    return aView;
+//
+// NSOutlineVIewDelegate stuff
+//
+
+-(NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn *)tableColumn item:(id)item {
+    if ([item isKindOfClass:[_OCDeviceGroup class]])
+        return [[self devOutlineView] makeViewWithIdentifier:@"HeaderCell" owner:self];
+    if ([item isKindOfClass:[OCDevice class]])
+        return [[self devOutlineView] makeViewWithIdentifier:@"DeviceCell" owner:self];
+    NSLog(@"Unexpected kind of entity in outline view: %@", item);
+    return nil;
 }
 
--(void)tableView:(NSTableView *)tableView didRemoveRowView:(NSTableRowView *)rowView forRow:(NSInteger)row {
-    // Breaking reference cycle for DeviceCells (a cell view retains the OCDevice instance
-    // aka objectValue; the living OCDevice instance prevents the corresponding DeviceCell
-    // from getting deallocated, see discussion in -tableView:viewForTableColumn:row: above).
-    [[rowView viewAtColumn:0] setObjectValue:nil];
+-(CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item {
+    if ([item isKindOfClass:[_OCDeviceGroup class]])
+        return [_groups indexOfObject:item] == 0 ? 25 : 31;
+    if ([item isKindOfClass:[OCDevice class]])
+        return 32;
+    NSLog(@"Unexpected kind of entity in outline view: %@", item);
+    return 0;
 }
 
--(CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
-    return row ? 32 : 25;
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item {
+    if ([item isKindOfClass:[_OCDeviceGroup class]])
+        return NO;
+    return YES;
 }
 
 //
@@ -251,11 +265,9 @@
     return animation;
 }
 
--(BOOL)hasVisibleItems {
-    return [_devList count]>0;
-}
-
 - (IBAction)showErrorBtnAction:(id)sender {
     [_errorPopover showRelativeToRect:[sender bounds] ofView:sender preferredEdge:NSMaxYEdge];
 }
+    
 @end
+
