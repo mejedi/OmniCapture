@@ -268,6 +268,17 @@
 - (IBAction)showErrorBtnAction:(id)sender {
     [_errorPopover showRelativeToRect:[sender bounds] ofView:sender preferredEdge:NSMaxYEdge];
 }
+
+- (IBAction)devOutlineViewSingleClickAction:(id)sender {
     
+    if ([sender numberOfSelectedRows] > 0) {
+        NSInteger clickedRow = [sender clickedRow];
+        NSOutlineView *outlineView = [self devOutlineView];
+        if (clickedRow < 0 || ![self outlineView:sender shouldSelectItem:[outlineView itemAtRow:clickedRow]]) {
+            [outlineView deselectAll:self];
+        }
+    }
+}
+
 @end
 

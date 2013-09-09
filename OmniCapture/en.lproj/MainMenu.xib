@@ -1555,7 +1555,7 @@
 																			<reference key="NSTableView" ref="437939030"/>
 																		</object>
 																	</array>
-																	<double key="NSIntercellSpacingWidth">3</double>
+																	<double key="NSIntercellSpacingWidth">2</double>
 																	<double key="NSIntercellSpacingHeight">0.0</double>
 																	<object class="NSColor" key="NSBackgroundColor">
 																		<int key="NSColorSpace">6</int>
@@ -1877,7 +1877,6 @@
 									<string key="NSFrame">{{0, 514}, {1158, 148}}</string>
 									<reference key="NSSuperview" ref="1034117624"/>
 									<reference key="NSWindow"/>
-									<reference key="NSNextKeyView"/>
 									<string key="NSReuseIdentifierKey">_NS:13</string>
 									<string key="NSClassName">OCBackgroundView</string>
 								</object>
@@ -1947,7 +1946,6 @@
 						<string key="NSFrame">{{-3, 100}, {361, 17}}</string>
 						<reference key="NSSuperview" ref="240698430"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:1535</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="834067111">
@@ -2799,6 +2797,14 @@
 						<reference key="destination" ref="437939030"/>
 					</object>
 					<int key="connectionID">932</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">devOutlineViewSingleClickAction:</string>
+						<reference key="source" ref="830602742"/>
+						<reference key="destination" ref="437939030"/>
+					</object>
+					<int key="connectionID">937</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -4666,7 +4672,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">936</int>
+			<int key="maxID">937</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4732,12 +4738,17 @@
 					<string key="superclassName">NSObject</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="addDevBtnAction:">id</string>
+						<string key="devOutlineViewSingleClickAction:">id</string>
 						<string key="removeDevBtnAction:">id</string>
 						<string key="showErrorBtnAction:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="addDevBtnAction:">
 							<string key="name">addDevBtnAction:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="devOutlineViewSingleClickAction:">
+							<string key="name">devOutlineViewSingleClickAction:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="removeDevBtnAction:">

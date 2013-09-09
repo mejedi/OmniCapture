@@ -26,5 +26,6 @@
 - (IBAction)addDevBtnAction:(id)sender;
 - (IBAction)removeDevBtnAction:(id)sender;
 - (IBAction)showErrorBtnAction:(id)sender;
+- (IBAction)devOutlineViewSingleClickAction:(id)sender;
 
 @end
