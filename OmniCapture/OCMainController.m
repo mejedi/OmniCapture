@@ -39,7 +39,7 @@
         
         _groups = [NSMutableArray arrayWithCapacity:1];
         [_groups addObject:[[_OCDeviceGroup alloc] initWithName:@"CAMERAS"]];
-        [_groups addObject:[[_OCDeviceGroup alloc] initWithName:@"TESTING"]];
+        // [_groups addObject:[[_OCDeviceGroup alloc] initWithName:@"TESTING"]];
         
         _devCleanupTimers = [NSMapTable weakToWeakObjectsMapTable];
     }
@@ -271,7 +271,18 @@
 
 - (IBAction)devOutlineViewSingleClickAction:(id)sender {
     
-    if ([sender numberOfSelectedRows] > 0) {
+    // Usually clicking the empty space in a table view resets selection. But not with
+    // source list highlighting style.  Since we like source list style we had to clear
+    // selection manually.
+    //
+    // Note: clearing selection only when neither Shift nor Cmd modifier keys are pressed.
+    //
+    // TODO: Multiple selection looks ugly in source list style. Switch to regular highlight
+    // style but implement custom selection drawing in NSTableRowView. Get rid of this handler
+    // since it becomes obsolete.
+    if ([sender numberOfSelectedRows] > 0
+        && 0 == ([[NSApp currentEvent] modifierFlags] & (NSShiftKeyMask|NSCommandKeyMask))
+        ) {
         NSInteger clickedRow = [sender clickedRow];
         NSOutlineView *outlineView = [self devOutlineView];
         if (clickedRow < 0 || ![self outlineView:sender shouldSelectItem:[outlineView itemAtRow:clickedRow]]) {

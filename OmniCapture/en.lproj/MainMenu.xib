@@ -1501,7 +1501,7 @@
 																	</object>
 																	<array class="NSMutableArray" key="NSTableColumns">
 																		<object class="NSTableColumn" id="1046029768">
-																			<double key="NSWidth">252</double>
+																			<double key="NSWidth">253</double>
 																			<double key="NSMinWidth">16</double>
 																			<double key="NSMaxWidth">1000</double>
 																			<object class="NSTableHeaderCell" key="NSHeaderCell">
@@ -1937,7 +1937,7 @@
 				<bool key="NSAnimates">YES</bool>
 			</object>
 			<object class="NSCustomView" id="240698430">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">268</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSTextField" id="46656802">
@@ -1945,7 +1945,6 @@
 						<int key="NSvFlags">268</int>
 						<string key="NSFrame">{{-3, 100}, {361, 17}}</string>
 						<reference key="NSSuperview" ref="240698430"/>
-						<reference key="NSWindow"/>
 						<string key="NSReuseIdentifierKey">_NS:1535</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="834067111">
@@ -1962,8 +1961,6 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{355, 216}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="46656802"/>
 				<string key="NSReuseIdentifierKey">_NS:9</string>
 				<string key="NSClassName">NSView</string>
@@ -2763,7 +2760,7 @@
 							<reference key="NSNextResponder" ref="816754740"/>
 							<int key="NSvFlags">297</int>
 							<array class="NSMutableArray" key="NSSubviews"/>
-							<string key="NSFrame">{{224, 4}, {24, 24}}</string>
+							<string key="NSFrame">{{225, 4}, {24, 24}}</string>
 							<reference key="NSSuperview" ref="816754740"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
@@ -2816,7 +2813,7 @@
 								<object class="NSTextField" id="955303027">
 									<reference key="NSNextResponder" ref="816754740"/>
 									<int key="NSvFlags">266</int>
-									<string key="NSFrame">{{51, 4}, {172, 21}}</string>
+									<string key="NSFrame">{{51, 4}, {173, 21}}</string>
 									<reference key="NSSuperview" ref="816754740"/>
 									<reference key="NSNextKeyView" ref="268178921"/>
 									<string key="NSAntiCompressionPriority">{250, 750}</string>
@@ -2874,7 +2871,7 @@
 								<object class="NSProgressIndicator" id="394707362">
 									<reference key="NSNextResponder" ref="816754740"/>
 									<int key="NSvFlags">297</int>
-									<string key="NSFrame">{{228, 8}, {16, 16}}</string>
+									<string key="NSFrame">{{229, 8}, {16, 16}}</string>
 									<reference key="NSSuperview" ref="816754740"/>
 									<reference key="NSNextKeyView" ref="366199299"/>
 									<string key="NSReuseIdentifierKey">_NS:945</string>
@@ -2882,7 +2879,7 @@
 									<double key="NSMaxValue">100</double>
 								</object>
 							</array>
-							<string key="NSFrame">{{1, 25}, {252, 32}}</string>
+							<string key="NSFrame">{{1, 25}, {253, 32}}</string>
 							<reference key="NSNextKeyView" ref="61990615"/>
 							<bool key="NSViewIsLayerTreeHost">YES</bool>
 						</object>
@@ -2944,7 +2941,7 @@
 								<object class="NSTextField" id="854373683">
 									<reference key="NSNextResponder" ref="123796527"/>
 									<int key="NSvFlags">290</int>
-									<string key="NSFrame">{{5, 3}, {252, 17}}</string>
+									<string key="NSFrame">{{5, 3}, {253, 17}}</string>
 									<reference key="NSSuperview" ref="123796527"/>
 									<reference key="NSNextKeyView" ref="816754740"/>
 									<string key="NSAntiCompressionPriority">{250, 750}</string>
@@ -2968,7 +2965,7 @@
 									<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
 								</object>
 							</array>
-							<string key="NSFrame">{{1, 0}, {252, 25}}</string>
+							<string key="NSFrame">{{1, 0}, {253, 25}}</string>
 							<reference key="NSNextKeyView" ref="854373683"/>
 						</object>
 						<reference key="destination" ref="854373683"/>
