@@ -9,7 +9,17 @@
 #import <Foundation/Foundation.h>
 #import "OCDeviceManager.h"
 
-@interface OCMainController : NSObject<OCDeviceManagerDelegate, NSOutlineViewDataSource, NSOutlineViewDelegate> {
+// Controls all the device management machinery in the UI, including:
+// - Available device list
+// - Showing live preview for the selected device
+// - Inspecting properties of the selected device
+// - Initiating sample shots
+// - Arranging multiple devices to participate in a capture session (alt mode)
+// - Initiating capture sessions
+//
+@interface OCDeviceMgmtController : NSObject<
+    OCDeviceManagerDelegate, NSOutlineViewDataSource, NSOutlineViewDelegate>
+{
     int _serial;
     NSTimer *_timer;
     OCDevice *_blinky;
@@ -19,13 +29,15 @@
     NSMapTable *_devCleanupTimers;
 }
 
-@property (weak) IBOutlet OCDeviceManager *deviceManager;
+@property (nonatomic) OCDeviceManager *deviceManager;
 @property (weak) IBOutlet NSOutlineView *devOutlineView;
-@property (weak) IBOutlet NSPopover *errorPopover;
+@property (strong) IBOutlet NSPopover *errorPopover;
 
 - (IBAction)addDevBtnAction:(id)sender;
 - (IBAction)removeDevBtnAction:(id)sender;
 - (IBAction)showErrorBtnAction:(id)sender;
 - (IBAction)devOutlineViewSingleClickAction:(id)sender;
+
+- (void)invalidate;
 
 @end

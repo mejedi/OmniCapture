@@ -6,13 +6,13 @@
 //  Copyright (c) 2013 Nick Zavaritsky. All rights reserved.
 //
 
-#import "OCMainLayoutController.h"
+#import "OCLayoutController.h"
 
-@interface OCMainLayoutController ()
+@interface OCLayoutController ()
 
 @end
 
-@implementation OCMainLayoutController
+@implementation OCLayoutController
 
 - (BOOL)splitView:(NSSplitView *)splitView shouldAdjustSizeOfSubview:(NSView *)subview {
     return [_contentArea isDescendantOf:subview];

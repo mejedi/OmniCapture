@@ -1315,7 +1315,7 @@
 				<int key="NSWindowStyleMask">4111</int>
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{145, 543}, {1158, 680}}</string>
-				<int key="NSWTFlags">1954022400</int>
+				<int key="NSWTFlags">880280576</int>
 				<string key="NSWindowTitle">OmniCapture</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<object class="NSToolbar" key="NSViewClass" id="498446196">
@@ -1905,7 +1905,7 @@
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="1034117624"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1920, 1058}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSAutorecalculatesContentBorderThicknessMinY">NO</bool>
 				<double key="NSContentBorderThicknessMinY">20</double>
@@ -1919,13 +1919,10 @@
 				<string key="NSClassName">NSFontManager</string>
 			</object>
 			<object class="NSCustomObject" id="652156854">
-				<string key="NSClassName">OCMainLayoutController</string>
-			</object>
-			<object class="NSCustomObject" id="673243330">
-				<string key="NSClassName">OCDeviceManager</string>
+				<string key="NSClassName">OCLayoutController</string>
 			</object>
 			<object class="NSCustomObject" id="830602742">
-				<string key="NSClassName">OCMainController</string>
+				<string key="NSClassName">OCDeviceMgmtController</string>
 			</object>
 			<object class="NSViewController" id="903633215"/>
 			<object class="NSPopover" id="289395053">
@@ -2650,6 +2647,14 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
+						<string key="label">deviceMgmtController</string>
+						<reference key="source" ref="976324537"/>
+						<reference key="destination" ref="830602742"/>
+					</object>
+					<int key="connectionID">941</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="1034117624"/>
 						<reference key="destination" ref="652156854"/>
@@ -2711,22 +2716,6 @@
 						<reference key="destination" ref="644453094"/>
 					</object>
 					<int key="connectionID">772</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="673243330"/>
-						<reference key="destination" ref="830602742"/>
-					</object>
-					<int key="connectionID">861</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">deviceManager</string>
-						<reference key="source" ref="830602742"/>
-						<reference key="destination" ref="673243330"/>
-					</object>
-					<int key="connectionID">814</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -4169,11 +4158,6 @@
 						<reference key="parent" ref="761912522"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">784</int>
-						<reference key="object" ref="673243330"/>
-						<reference key="parent" ref="0"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">813</int>
 						<reference key="object" ref="830602742"/>
 						<reference key="parent" ref="0"/>
@@ -4617,7 +4601,6 @@
 				<string key="769.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="77.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="78.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="784.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="79.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="81.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="813.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4669,24 +4652,27 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">937</int>
+			<int key="maxID">941</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
 					<string key="className">AppDelegate</string>
 					<string key="superclassName">NSObject</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">window</string>
-						<string key="NS.object.0">NSWindow</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">window</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="deviceMgmtController">OCDeviceMgmtController</string>
+						<string key="window">NSWindow</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="deviceMgmtController">
+							<string key="name">deviceMgmtController</string>
+							<string key="candidateClassName">OCDeviceMgmtController</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="window">
 							<string key="name">window</string>
 							<string key="candidateClassName">NSWindow</string>
 						</object>
-					</object>
+					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/AppDelegate.h</string>
@@ -4712,26 +4698,7 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">OCDeviceManager</string>
-					<string key="superclassName">NSObject</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">delegate</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">delegate</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">delegate</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OCDeviceManager.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">OCMainController</string>
+					<string key="className">OCDeviceMgmtController</string>
 					<string key="superclassName">NSObject</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="addDevBtnAction:">id</string>
@@ -4759,17 +4726,12 @@
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="devOutlineView">NSOutlineView</string>
-						<string key="deviceManager">OCDeviceManager</string>
 						<string key="errorPopover">NSPopover</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="devOutlineView">
 							<string key="name">devOutlineView</string>
 							<string key="candidateClassName">NSOutlineView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="deviceManager">
-							<string key="name">deviceManager</string>
-							<string key="candidateClassName">OCDeviceManager</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="errorPopover">
 							<string key="name">errorPopover</string>
@@ -4778,44 +4740,44 @@
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OCMainController.h</string>
+						<string key="minorKey">./Classes/OCDeviceMgmtController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">OCMainLayoutController</string>
+					<string key="className">OCLayoutController</string>
 					<string key="superclassName">NSObject</string>
 					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="contentArea">OCBackgroundView</string>
-						<string key="deviceBrowserArea">OCBackgroundView</string>
-						<string key="deviceSelectionArea">OCBackgroundView</string>
-						<string key="galleryBrowserArea">OCBackgroundView</string>
-						<string key="inspectorArea">OCBackgroundView</string>
+						<string key="contentArea">NSView</string>
+						<string key="deviceBrowserArea">NSView</string>
+						<string key="deviceSelectionArea">NSView</string>
+						<string key="galleryBrowserArea">NSView</string>
+						<string key="inspectorArea">NSView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="contentArea">
 							<string key="name">contentArea</string>
-							<string key="candidateClassName">OCBackgroundView</string>
+							<string key="candidateClassName">NSView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="deviceBrowserArea">
 							<string key="name">deviceBrowserArea</string>
-							<string key="candidateClassName">OCBackgroundView</string>
+							<string key="candidateClassName">NSView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="deviceSelectionArea">
 							<string key="name">deviceSelectionArea</string>
-							<string key="candidateClassName">OCBackgroundView</string>
+							<string key="candidateClassName">NSView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="galleryBrowserArea">
 							<string key="name">galleryBrowserArea</string>
-							<string key="candidateClassName">OCBackgroundView</string>
+							<string key="candidateClassName">NSView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="inspectorArea">
 							<string key="name">inspectorArea</string>
-							<string key="candidateClassName">OCBackgroundView</string>
+							<string key="candidateClassName">NSView</string>
 						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OCMainLayoutController.h</string>
+						<string key="minorKey">./Classes/OCLayoutController.h</string>
 					</object>
 				</object>
 			</array>

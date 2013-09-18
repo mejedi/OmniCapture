@@ -8,14 +8,14 @@
 
 #import <QuartzCore/CoreAnimation.h>
 
-#import "OCMainController.h"
+#import "OCDeviceMgmtController.h"
 #import "OCDeviceManager+Private.h"
 #import "OCDevice.h"
 #import "NSOutlineView+OCExtensions.h"
 
 @interface _OCDeviceGroup : NSObject
 @property (readonly) NSMutableArray *devices;
-@property (readwrite) NSString *name;
+@property (readwrite, copy) NSString *name;
 @end
 
 @implementation _OCDeviceGroup
@@ -30,7 +30,7 @@
 
 @end
 
-@implementation OCMainController
+@implementation OCDeviceMgmtController
 
 - (id)init {
     self = [super init];
@@ -38,12 +38,18 @@
         _serial = 1;
         
         _groups = [NSMutableArray arrayWithCapacity:1];
-        [_groups addObject:[[_OCDeviceGroup alloc] initWithName:@"CAMERAS"]];
-        // [_groups addObject:[[_OCDeviceGroup alloc] initWithName:@"TESTING"]];
+        [_groups addObject:[[_OCDeviceGroup alloc] initWithName:@"CAPTURE DEVICES"]];
         
         _devCleanupTimers = [NSMapTable weakToWeakObjectsMapTable];
     }
     return self;
+}
+
+- (void) invalidate
+{
+    [[self deviceManager] invalidate];
+    [_timer invalidate];
+    [_blinkyNameTimer invalidate];
 }
 
 - (void)awakeFromNib {
@@ -52,15 +58,15 @@
 #if 0
     OCDeviceManager *manager = [self deviceManager];
 
-    OCDevice *fido = [manager reuseDeviceWithKey:@"" class:[OCDevice class]];
+    OCDevice *fido = [manager claimDeviceWithKey:nil class:[OCDevice class]];
     [fido setName:@"PowerShot A640"];
     [fido setAvailable:YES];
     
-    OCDevice *rover = [manager reuseDeviceWithKey:@"" class:[OCDevice class]];
+    OCDevice *rover = [manager claimDeviceWithKey:nil class:[OCDevice class]];
     [rover setName:@"Nikon"];
     [rover setAvailable:YES];
     
-    OCDevice *rex = [manager reuseDeviceWithKey:@"" class:[OCDevice class]];
+    OCDevice *rex = [manager claimDeviceWithKey:nil class:[OCDevice class]];
     [rex setName:@"iSight Camera"];
     [rex setAvailable:YES];
 #endif
@@ -70,8 +76,15 @@
     [outlineView expandItem:nil expandChildren:YES];
 }
 
+- (void)setDeviceManager:(OCDeviceManager *)deviceManager
+{
+    [_deviceManager setDelegate:nil];
+    [deviceManager setDelegate:self];
+    _deviceManager = deviceManager;
+}
+
 - (IBAction)addDevBtnAction:(id)sender {
-    OCDevice *foobar = [[self deviceManager] reuseDeviceWithKey:nil class:[OCDevice class]];
+    OCDevice *foobar = [[self deviceManager] claimDeviceWithKey:nil class:[OCDevice class]];
     [foobar setName:[NSString stringWithFormat:@"Camera #%d", _serial]];
     _serial++;
     [foobar setAvailable:YES];
@@ -88,7 +101,7 @@
         [_blinky setAvailable:NO];
         _blinky = nil;
     } else {
-        _blinky = [[self deviceManager] reuseDeviceWithKey:@"blinky" class:[OCDevice class]];
+        _blinky = [[self deviceManager] claimDeviceWithKey:@"blinky" class:[OCDevice class]];
         [_blinky setName:@"PowerShot A640"];
         [_blinky setError:YES];
         [_blinky setAvailable:YES];
@@ -114,6 +127,7 @@
 //
 
 - (void)deviceDidBecomeAvailable:(OCDevice *)adevice {
+    [NSSet setWithObject:adevice];
     _OCDeviceGroup *group = [_groups objectAtIndex:0];
     NSUInteger idx = [[group devices] indexOfObject:adevice];
     

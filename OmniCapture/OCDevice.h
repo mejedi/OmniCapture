@@ -28,7 +28,7 @@
 // available and unavailable as the status of the corresponding physical device changes.
 @property (readonly) NSString *key;
 
-@property (readwrite) NSString *name;
+@property (readwrite, copy) NSString *name;
 
 // When the associated device disconnects isAvailable is set to NO.  If the
 // device ever comes back isAvailable is flipped back to YES.

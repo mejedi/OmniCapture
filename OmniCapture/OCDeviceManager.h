@@ -21,14 +21,17 @@
 @interface OCDeviceManager : NSObject {
     __weak id<OCDeviceManagerDelegate> _delegate;
     NSMutableSet *_devices;
-    NSMapTable *_reusePool;
+    NSMapTable *_deviceByKey;
 }
 
-@property (weak) IBOutlet id<OCDeviceManagerDelegate> delegate;
+@property (weak) id<OCDeviceManagerDelegate> delegate;
 
 // Currently available capture devices. (KVC/KVO-compliant)
 - (NSUInteger)countOfDevices;
 - (NSEnumerator *)enumeratorOfDevices;
 - (id)memberOfDevices:(id)object;
+
+// Perform proper shutdown
+- (void)invalidate;
 
 @end

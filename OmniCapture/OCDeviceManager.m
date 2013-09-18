@@ -19,7 +19,7 @@ NSString * const devicesKeyName = @"devices";
     self = [super init];
     if (self) {
         _devices = [NSMutableSet setWithCapacity:0];
-        _reusePool = [NSMapTable strongToWeakObjectsMapTable];
+        _deviceByKey = [NSMapTable strongToWeakObjectsMapTable];
     }
     return self;
 }
@@ -44,8 +44,6 @@ NSString * const devicesKeyName = @"devices";
     
     // device came online
     if (isavail == YES && listed == NO) {
-        [self removeDeviceFromReusePool:adevice];
-        
         NSSet *objects = [NSSet setWithObject:adevice];
         
         [self willChangeValueForKey:devicesKeyName
@@ -76,40 +74,30 @@ NSString * const devicesKeyName = @"devices";
         [self didChangeValueForKey:devicesKeyName
                    withSetMutation:NSKeyValueMinusSetMutation
                       usingObjects:objects];
-        
-        [self addDeviceToReusePool:adevice];
     }
 }
 
-- (void)addDeviceToReusePool:(OCDevice *)adevice {
-    if ([adevice owner] != self)
-        return NSLog(@"OCDeviceManager addDeviceToReusePool: does not own the device");
-    NSString *key = [adevice key];
-    if (!key)
-        return;
-    [_reusePool setObject:adevice forKey:key];
-}
-
-- (void)removeDeviceFromReusePool:(OCDevice *)adevice {
-    if ([adevice owner] != self)
-        return NSLog(@"OCDeviceManager removeDeviceFromReusePool: does not own the device");
-    NSString *key = [adevice key];
-    if (!key)
-        return;
-    [_reusePool removeObjectForKey:key];
-}
-
-- (id)reuseDeviceWithKey:(NSString *)akey class:(Class)class {
+- (id)claimDeviceWithKey:(NSString *)akey class:(Class)class
+{
     id adevice = nil;
     if (akey) {
-        adevice = [_reusePool objectForKey:akey];
+        adevice = [_deviceByKey objectForKey:akey];
     }
-    if ([adevice isKindOfClass:class]) {
-        [self removeDeviceFromReusePool:adevice];
+    if ([adevice isKindOfClass:class] && [adevice available]==NO) {
         return adevice;
     } else {
-        return [[class alloc] initWithOwner:self key:akey];
+        if (akey && adevice)
+            NSLog(@"OCDeviceManager: key %@ already assigned to a device named %@",
+                  akey, [adevice name]);
+        id device = [[class alloc] initWithOwner:self key:akey];
+        if (akey)
+            [_deviceByKey setObject:device forKey:akey];
+        return device;
     }
+}
+
+- (void)invalidate
+{
 }
 
 @end
