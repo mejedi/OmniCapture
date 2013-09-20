@@ -11,17 +11,12 @@
 @class OCDeviceManager;
 
 // A capture device: Ex. a digital camera with USB support.
-@interface OCDevice : NSObject {
-    __weak OCDeviceManager *_owner;
-    NSString *_key;
-    NSString *_name;
-    BOOL _available;
-}
+@interface OCDevice : NSObject 
 
-- (id)init;
 - (id)initWithOwner:(OCDeviceManager *)owner key:(NSString *)akey;
+- (void)terminate;
 
-@property (readonly) OCDeviceManager *owner;
+@property (readonly) __weak OCDeviceManager *owner;
 
 // Unique key; used to match an existing OCDevice instance with a newly connected
 // physical device.  This enables to create long living OCDevice-s that are becoming

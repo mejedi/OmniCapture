@@ -18,10 +18,13 @@
 
 // Device Manager: get current device list and subscribe for change notifications
 // You probably should not create more than a single OCDeviceManager instance.
+// Not safe to call from multiple threads.
 @interface OCDeviceManager : NSObject {
     __weak id<OCDeviceManagerDelegate> _delegate;
-    NSMutableSet *_devices;
+    NSMutableArray *_backends;
     NSMapTable *_deviceByKey;
+    NSMutableSet *_claimedDevices;
+    NSMutableSet *_availableDevices;
 }
 
 @property (weak) id<OCDeviceManagerDelegate> delegate;

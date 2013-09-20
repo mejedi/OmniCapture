@@ -21,9 +21,6 @@
     OCDeviceManagerDelegate, NSOutlineViewDataSource, NSOutlineViewDelegate>
 {
     int _serial;
-    NSTimer *_timer;
-    OCDevice *_blinky;
-    NSTimer *_blinkyNameTimer;
 
     NSMutableArray *_groups;
     NSMapTable *_devCleanupTimers;

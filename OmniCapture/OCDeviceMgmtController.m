@@ -48,29 +48,24 @@
 - (void) invalidate
 {
     [[self deviceManager] invalidate];
-    [_timer invalidate];
-    [_blinkyNameTimer invalidate];
 }
 
 - (void)awakeFromNib {
-    if (_timer)
-        return;
 #if 0
     OCDeviceManager *manager = [self deviceManager];
 
-    OCDevice *fido = [manager claimDeviceWithKey:nil class:[OCDevice class]];
+    OCDevice *fido = [manager _claimDeviceWithKey:nil class:[OCDevice class]];
     [fido setName:@"PowerShot A640"];
     [fido setAvailable:YES];
     
-    OCDevice *rover = [manager claimDeviceWithKey:nil class:[OCDevice class]];
+    OCDevice *rover = [manager _claimDeviceWithKey:nil class:[OCDevice class]];
     [rover setName:@"Nikon"];
     [rover setAvailable:YES];
     
-    OCDevice *rex = [manager claimDeviceWithKey:nil class:[OCDevice class]];
+    OCDevice *rex = [manager _claimDeviceWithKey:nil class:[OCDevice class]];
     [rex setName:@"iSight Camera"];
     [rex setAvailable:YES];
 #endif
-    _timer = [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(timerDidFire:) userInfo:nil repeats:YES];
     NSOutlineView *outlineView = [self devOutlineView];
     [outlineView reloadData];
     [outlineView expandItem:nil expandChildren:YES];
@@ -84,42 +79,18 @@
 }
 
 - (IBAction)addDevBtnAction:(id)sender {
-    OCDevice *foobar = [[self deviceManager] claimDeviceWithKey:nil class:[OCDevice class]];
+    OCDevice *foobar = [[self deviceManager] _claimDeviceWithKey:nil class:[OCDevice class]];
     [foobar setName:[NSString stringWithFormat:@"Camera #%d", _serial]];
     _serial++;
     [foobar setAvailable:YES];
 }
 
 - (IBAction)removeDevBtnAction:(id)sender {
-    [[[[self deviceManager] enumeratorOfDevices] nextObject] setAvailable:NO];
-}
-
-- (void)timerDidFire:(NSTimer *)timer {
-    [_blinkyNameTimer invalidate];
-    _blinkyNameTimer = nil;
-    if (_blinky) {
-        [_blinky setAvailable:NO];
-        _blinky = nil;
-    } else {
-        _blinky = [[self deviceManager] claimDeviceWithKey:@"blinky" class:[OCDevice class]];
-        [_blinky setName:@"PowerShot A640"];
-        [_blinky setError:YES];
-        [_blinky setAvailable:YES];
-        _blinkyNameTimer = [NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(blinkyNameTimerDidFire:) userInfo:nil repeats:YES];
+    OCDevice *victim = [[[self deviceManager] enumeratorOfDevices] nextObject];
+    if (victim) {
+        [victim setAvailable:NO];
+        [[self deviceManager] _releaseClaimedDevice:victim];
     }
-}
-
-- (void)blinkyNameTimerDidFire:(NSTimer *)timer {
-#if 0
-    NSString *name = [_blinky name];
-    NSUInteger len = [name length];
-    if (len == 0)
-        return;
-    if ([name characterAtIndex:len-1] == '_')
-        [_blinky setName:[name substringToIndex:len-1]];
-    else
-        [_blinky setName:[name stringByAppendingString:@"_"]];
-#endif
 }
 
 //
@@ -272,7 +243,7 @@
 
     // Adjusting beginTime to sync pulse animations in different table rows
     CFTimeInterval currentTime = CACurrentMediaTime();
-    [animation setBeginTime:currentTime - fmod(currentTime, kOCPulseTime)];
+    [animation setBeginTime:currentTime + kOCPulseTime - fmod(currentTime, kOCPulseTime)];
     [animation setDuration:kOCPulseTime*kOCPulsesNum];
     [animation setValues:values];
 
