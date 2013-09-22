@@ -13,7 +13,7 @@
 @implementation OCDevice
 
 - (id)init {
-    @throw [NSException exceptionWithName:@"OCBadInitCall"
+    @throw [NSException exceptionWithName:@"OCException"
                                    reason:@"use initWithOwner:key: to init OCDevice"
                                  userInfo:nil];
     return nil;
@@ -25,12 +25,11 @@
         _owner = owner;
         _key = akey;
         _name = @"";
-        _available = NO;
     }
     return self;
 }
 
-- (void)terminate
+- (void)invalidate
 {
 }
 

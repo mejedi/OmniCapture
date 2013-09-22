@@ -13,7 +13,7 @@
 @class OCDeviceManager;
 struct _GPContext;
 
-@interface OCGphotoBackend : NSObject <OCDeviceManagerBackend, OCUsbDeviceDispatcher> {
+@interface OCGphotoBackend : OCDeviceManagerBackend<OCUsbDeviceDispatcher> {
     __weak OCDeviceManager *_owner;
     NSSet *_knownVidPidPairs;
 }

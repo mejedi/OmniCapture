@@ -10,5 +10,6 @@
 #import "OCLocalDeviceHandle.h"
 
 @interface OCGphotoDevice : OCDevice<OCLocalDeviceHandleDelegate>
++(id)deviceWithOwner:(OCDeviceManager *)owner usbDeviceHandle:(OCLocalDeviceHandle *)handle;
 @property (readwrite) OCLocalDeviceHandle *handle;
 @end

@@ -79,17 +79,16 @@
 }
 
 - (IBAction)addDevBtnAction:(id)sender {
-    OCDevice *foobar = [[self deviceManager] _claimDeviceWithKey:nil class:[OCDevice class]];
-    [foobar setName:[NSString stringWithFormat:@"Camera #%d", _serial]];
-    _serial++;
-    [foobar setAvailable:YES];
+    OCDevice *foobar = [[OCDevice alloc] initWithOwner:[self deviceManager] key:nil];
+    [foobar _register];
+    [foobar setName:[NSString stringWithFormat:@"Camera #%d", _serial++]];
+    [foobar setIsAvailable:YES];
 }
 
 - (IBAction)removeDevBtnAction:(id)sender {
     OCDevice *victim = [[[self deviceManager] enumeratorOfDevices] nextObject];
     if (victim) {
-        [victim setAvailable:NO];
-        [[self deviceManager] _releaseClaimedDevice:victim];
+        [victim _unregister];
     }
 }
 
@@ -143,7 +142,7 @@
 
 -(void)devCleanupTimerDidFire:(NSTimer *)timer {
     OCDevice *device = [timer userInfo];
-    if ([device available]) {
+    if ([device isAvailable]) {
         return;
     }
 

@@ -10,14 +10,13 @@
 #import "OCDeviceManagerBackend.h"
 
 @class OCLocalDeviceHandle;
+@class OCLocalDeviceBackend;
 
 @protocol OCUsbDeviceDispatcher <NSObject>
-- (BOOL)dispatchUsbDevice:(OCLocalDeviceHandle *)handle;
-@optional
-- (double)usbDeviceDispatchPriority;
+- (BOOL)localDeviceBackend:(OCLocalDeviceBackend *)backend dispatchUsbDevice:(OCLocalDeviceHandle *)handle;
 @end
 
-@interface OCLocalDeviceBackend : NSObject<OCDeviceManagerBackend> {
+@interface OCLocalDeviceBackend : OCDeviceManagerBackend {
     __weak OCDeviceManager *_owner;
     NSArray *_dispatchersUsb;
     IONotificationPortRef _notifyPort;

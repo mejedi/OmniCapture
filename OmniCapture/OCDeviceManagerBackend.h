@@ -10,8 +10,8 @@
 
 @class OCDeviceManager;
 
-@protocol OCDeviceManagerBackend <NSObject>
+@interface OCDeviceManagerBackend : NSObject
 + (id)backendWithOwner:(OCDeviceManager *)owner;
 - (void)start;
-- (void)terminate;
+- (void)invalidate;
 @end

@@ -14,7 +14,7 @@
 @interface OCDevice : NSObject 
 
 - (id)initWithOwner:(OCDeviceManager *)owner key:(NSString *)akey;
-- (void)terminate;
+- (void)invalidate;
 
 @property (readonly) __weak OCDeviceManager *owner;
 
@@ -30,7 +30,7 @@
 // KVO-observable
 // Note: making device instance available invokes observers in OCDeviceManager.
 // The object should be fully initialized before doing that.
-@property (readwrite) BOOL available;
+@property (readwrite) BOOL isAvailable;
 
 @property (readwrite) BOOL error;
 

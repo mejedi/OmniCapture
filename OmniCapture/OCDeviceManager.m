@@ -7,8 +7,9 @@
 //
 
 #import "OCDeviceManager.h"
-#import "OCDevice.h"
 #import "OCDeviceManager+Private.h"
+#import "OCDevice.h"
+#import "OCDeviceProxy.h"
 #import "OCLocalDeviceBackend.h"
 #import "OCGphotoBackend.h"
 
@@ -20,24 +21,19 @@ NSString * const devicesKeyName = @"devices";
 - (id)init {
     self = [super init];
     if (self) {
-        // _deviceByKey: maps a unique device key to an OCDevice instance
-        _deviceByKey = [NSMapTable strongToWeakObjectsMapTable];
-        
-        // _claimedDevices: instances whith some ongoing activity, typically
-        // it means that the associated physical device is attached and we are controlling it
-        _claimedDevices = [NSMutableSet setWithCapacity:0];
-        
-        // _availableDevices: devices reported to the UI as being available, this is
-        // distinct from _claimedDevices due to different threading requirements.
-        _availableDevices = [NSMutableSet setWithCapacity:0];
+        _proxyByKey = [NSMapTable strongToWeakObjectsMapTable];
+        _proxyByDevice = [NSMapTable strongToStrongObjectsMapTable];
+        _devices = [NSMutableSet setWithCapacity:0];
+        _proxies = [NSMutableSet setWithCapacity:0];
         
         // init backends
-        _backends = [NSMutableArray arrayWithCapacity:10];
-        [_backends addObject:[OCLocalDeviceBackend backendWithOwner:self]];
-        [_backends addObject:[OCGphotoBackend backendWithOwner:self]];
+        _backends = [NSArray arrayWithObjects:
+                        [OCLocalDeviceBackend backendWithOwner:self],
+                        [OCGphotoBackend backendWithOwner:self],
+                     nil];
         
         // start backends
-        for (id<OCDeviceManagerBackend> backend in _backends) {
+        for (OCDeviceManagerBackend *backend in _backends) {
             [backend start];
         }
     }
@@ -45,50 +41,74 @@ NSString * const devicesKeyName = @"devices";
 }
 
 - (NSUInteger)countOfDevices {
-    return [_availableDevices count];
+    return [_proxies count];
 }
 
 - (NSEnumerator *)enumeratorOfDevices {
-    return [_availableDevices objectEnumerator];
+    return [_proxies objectEnumerator];
 }
 
 - (id)memberOfDevices:(id)object {
-    return [_availableDevices member:object];
+    return [_proxies member:object];
 }
 
-- (id)_claimDeviceWithKey:(NSString *)akey class:(Class)class
+- (void)_registerDevice:(OCDevice *)adevice
 {
     @synchronized (self) {
-        id adevice = nil;
-        if (akey) {
-            adevice = [_deviceByKey objectForKey:akey];
+        if ([_devices containsObject:adevice]) {
+            NSLog(@"OCDeviceManager _registerDevice: already registered");
+            return;
         }
-        if (![adevice isKindOfClass:class] || [_claimedDevices containsObject:adevice]) {
-            if (akey && adevice)
-                NSLog(@"OCDeviceManager: key %@ already assigned to a device named %@",
-                      akey, [adevice name]);
-            adevice = [[class alloc] initWithOwner:self key:akey];
-            if (akey)
-                [_deviceByKey setObject:adevice forKey:akey];
-            [adevice addObserver:self forKeyPath:@"available"
-                         options:(NSKeyValueObservingOptionNew |
-                                  NSKeyValueObservingOptionOld)
-                         context:NULL];
+        [_devices addObject:adevice];
+        NSString *key = [adevice key];
+        OCDeviceProxy *proxy = nil;
+        if (key)
+            proxy = [_proxyByKey objectForKey:key];
+        if (!proxy) {
+            proxy = [OCDeviceProxy proxyWithOwner:self key:key];
+            if (key)
+                [_proxyByKey setObject:proxy forKey:key];
         }
-        [_claimedDevices addObject:adevice];
-        return adevice;
+        [_proxyByDevice setObject:proxy forKey:adevice];
+        
+        [self _asyncCleanupPending:self];
+        dispatch_async([self _dispatchQueue], ^{
+            if ([proxy isBound]) {
+                [proxy unbind];
+            } else {
+                [proxy addObserver:self
+                        forKeyPath:@"isAvailable"
+                           options:(NSKeyValueObservingOptionNew |
+                                      NSKeyValueObservingOptionOld)
+                             context:NULL];
+            }
+            [proxy bindTo:adevice];
+            [self _asyncCleanupCompleted:self];
+        });
     }
 }
 
-- (void)_releaseClaimedDevice:(OCDevice *)adevice
+- (void)_unregisterDevice:(OCDevice *)adevice
 {
-    if (!adevice || [adevice owner] != self)
-        return NSLog(@"OCDeviceManager _releaseClaimedDevice: does not own the device");
-
     @synchronized (self) {
-        if (_claimedDevices && ![_claimedDevices containsObject:adevice])
-            return NSLog(@"OCDeviceManager _releaseClaimedDevice: device was not claimed");
-        [_claimedDevices removeObject:adevice];
+        if (![_devices containsObject:adevice]) {
+            if (_devices)
+                NSLog(@"OCDeviceManager _unregisterDevice: not registered");
+            return;
+        }
+        [_devices removeObject:adevice];
+        OCDeviceProxy *proxy = [_proxyByDevice objectForKey:adevice];
+        [_proxyByDevice removeObjectForKey:adevice];
+        
+        [self _asyncCleanupPending:self];
+        dispatch_async([self _dispatchQueue], ^{
+            if ([proxy isBoundTo:adevice]) {
+                [proxy unbind];
+                [proxy removeObserver:self
+                           forKeyPath:@"isAvailable"];
+            }
+            [self _asyncCleanupCompleted:self];
+        });
     }
 }
 
@@ -97,7 +117,7 @@ NSString * const devicesKeyName = @"devices";
                         change:(NSDictionary *)change
                        context:(void *)context
 {
-    if ([keyPath isEqualToString:@"available"]) {
+    if ([keyPath isEqualToString:@"isAvailable"]) {
         BOOL wasAvailable = [[change objectForKey:NSKeyValueChangeOldKey] boolValue];
         BOOL isAvailable = [[change objectForKey:NSKeyValueChangeNewKey] boolValue];
         if (wasAvailable == isAvailable)
@@ -110,7 +130,7 @@ NSString * const devicesKeyName = @"devices";
                         withSetMutation:NSKeyValueUnionSetMutation
                            usingObjects:objects];
             
-            [_availableDevices addObject:object];
+            [_proxies addObject:object];
             
             [self didChangeValueForKey:devicesKeyName
                        withSetMutation:NSKeyValueUnionSetMutation
@@ -127,7 +147,7 @@ NSString * const devicesKeyName = @"devices";
                         withSetMutation:NSKeyValueMinusSetMutation
                            usingObjects:objects];
             
-            [_availableDevices removeObject:object];
+            [_proxies removeObject:object];
             
             [self didChangeValueForKey:devicesKeyName
                        withSetMutation:NSKeyValueMinusSetMutation
@@ -139,25 +159,15 @@ NSString * const devicesKeyName = @"devices";
 
 - (void)invalidate
 {
-    NSSet *claimed = nil;
-    @synchronized (self) {
-        claimed = _claimedDevices;
-        _claimedDevices = nil;
-    }
-    // terminate claimed devices (device may effectively receive multiple terminate messages
-    // due to activities on concurrent threads)
-    //
-    // Threading note: client MUST assume OCDeviceManager and OCDevice-s aren't thread safe.
-    // Internally a multithreaded backend may be implememnted; such a backend must consider
-    // thread safety when implementing OCDevice-s.
-    //
-    for (OCDevice *device in claimed) {
-        [device terminate];
+    NSSet *devices = _devices;
+    _devices = nil;
+    for (OCDevice *device in devices) {
+        [device invalidate];
     }
     // terminate backends (in reverse order)
     [_backends enumerateObjectsWithOptions:NSEnumerationReverse
-                                usingBlock:^(id<OCDeviceManagerBackend> backend, NSUInteger pos, BOOL *stop) {
-                                    [backend terminate];
+                                usingBlock:^(OCDeviceManagerBackend *backend, NSUInteger pos, BOOL *stop) {
+                                    [backend invalidate];
                                 }];
     _backends = nil;
 }
@@ -167,15 +177,15 @@ NSString * const devicesKeyName = @"devices";
     return dispatch_get_main_queue();
 }
 
-- (void)_notifyTerminating:(id)sender
+- (void)_asyncCleanupPending:(id)sender
 {
 }
 
-- (void)_notifyTerminated:(id)sender
+- (void)_asyncCleanupCompleted:(id)sender
 {
 }
 
-- (NSArray *)_qualifyingDispatchers:(SEL)selector
+- (NSArray *)_qualifyingDispatchersBySelector:(SEL)selector
 {
     NSMutableArray *dispatchers = [NSMutableArray arrayWithCapacity:0];
     for (id backend in _backends) {
@@ -183,6 +193,20 @@ NSString * const devicesKeyName = @"devices";
             [dispatchers addObject:backend];
     }
     return [dispatchers copy];
+}
+
+@end
+
+@implementation OCDevice (ManagerAdditions)
+
+- (void)_register
+{
+    [[self owner] _registerDevice:self];
+}
+
+- (void)_unregister
+{
+    [[self owner] _unregisterDevice:self];
 }
 
 @end

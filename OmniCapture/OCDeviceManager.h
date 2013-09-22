@@ -21,10 +21,11 @@
 // Not safe to call from multiple threads.
 @interface OCDeviceManager : NSObject {
     __weak id<OCDeviceManagerDelegate> _delegate;
-    NSMutableArray *_backends;
-    NSMapTable *_deviceByKey;
-    NSMutableSet *_claimedDevices;
-    NSMutableSet *_availableDevices;
+    NSArray *_backends;
+    NSMapTable *_proxyByKey;
+    NSMapTable *_proxyByDevice;
+    NSMutableSet *_devices;
+    NSMutableSet *_proxies;
 }
 
 @property (weak) id<OCDeviceManagerDelegate> delegate;

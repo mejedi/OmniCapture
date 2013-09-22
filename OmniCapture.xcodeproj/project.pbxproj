@@ -12,6 +12,8 @@
 		900842DF17D7C37900C462AF /* webcam.icns in Resources */ = {isa = PBXBuildFile; fileRef = 900842DE17D7C37900C462AF /* webcam.icns */; };
 		900842E117D7C65200C462AF /* warning.png in Resources */ = {isa = PBXBuildFile; fileRef = 900842E017D7C65200C462AF /* warning.png */; };
 		900842E717D7D2D300C462AF /* baco.icns in Resources */ = {isa = PBXBuildFile; fileRef = 900842E617D7D2D300C462AF /* baco.icns */; };
+		9019F21517EF6E8600819072 /* OCDeviceManagerBackend.m in Sources */ = {isa = PBXBuildFile; fileRef = 9019F21417EF6E8600819072 /* OCDeviceManagerBackend.m */; };
+		9019F21817EF721000819072 /* OCDeviceProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9019F21717EF721000819072 /* OCDeviceProxy.m */; };
 		905EF90F17B1535D00B8F80E /* OCBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 905EF90E17B1535D00B8F80E /* OCBackgroundView.m */; };
 		905EF91217B157E000B8F80E /* OCLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 905EF91117B157E000B8F80E /* OCLayoutController.m */; };
 		90958F9C17C29E3C003B6BFA /* OCDeviceMgmtController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90958F9B17C29E3C003B6BFA /* OCDeviceMgmtController.m */; };
@@ -40,6 +42,10 @@
 		900842DE17D7C37900C462AF /* webcam.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = webcam.icns; sourceTree = "<group>"; };
 		900842E017D7C65200C462AF /* warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warning.png; sourceTree = "<group>"; };
 		900842E617D7D2D300C462AF /* baco.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = baco.icns; sourceTree = "<group>"; };
+		9019F21417EF6E8600819072 /* OCDeviceManagerBackend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCDeviceManagerBackend.m; sourceTree = "<group>"; };
+		9019F21617EF721000819072 /* OCDeviceProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCDeviceProxy.h; sourceTree = "<group>"; };
+		9019F21717EF721000819072 /* OCDeviceProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCDeviceProxy.m; sourceTree = "<group>"; };
+		9019F21917EF849600819072 /* OCDevice+ManagerAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCDevice+ManagerAdditions.h"; sourceTree = "<group>"; };
 		905EF90D17B1535D00B8F80E /* OCBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCBackgroundView.h; sourceTree = "<group>"; };
 		905EF90E17B1535D00B8F80E /* OCBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCBackgroundView.m; sourceTree = "<group>"; };
 		905EF91017B157E000B8F80E /* OCLayoutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCLayoutController.h; sourceTree = "<group>"; };
@@ -97,6 +103,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9019F21C17EF924F00819072 /* Device Manager Internals */ = {
+			isa = PBXGroup;
+			children = (
+				90FC2F3D17BCF2BF00F2EFB4 /* OCDeviceManager.m */,
+				9019F21617EF721000819072 /* OCDeviceProxy.h */,
+				9019F21717EF721000819072 /* OCDeviceProxy.m */,
+				908D567717C24D65007828A9 /* OCDeviceManager+Private.h */,
+				90FC2F4017BCF8A500F2EFB4 /* OCDevice.m */,
+				90DF384217EC4A240038214C /* OCDeviceManagerBackend.h */,
+				9019F21417EF6E8600819072 /* OCDeviceManagerBackend.m */,
+				9019F21917EF849600819072 /* OCDevice+ManagerAdditions.h */,
+			);
+			name = "Device Manager Internals";
+			sourceTree = "<group>";
+		};
 		90BEAE7017AD385900CF9A30 = {
 			isa = PBXGroup;
 			children = (
@@ -176,14 +197,11 @@
 		90DF383417E21DCA0038214C /* Device Mini Framework */ = {
 			isa = PBXGroup;
 			children = (
+				90FC2F3C17BCF2BF00F2EFB4 /* OCDeviceManager.h */,
+				90FC2F3F17BCF8A500F2EFB4 /* OCDevice.h */,
+				9019F21C17EF924F00819072 /* Device Manager Internals */,
 				90DF383E17EB2CC70038214C /* Local Device Backend */,
 				90DF383917E9B0590038214C /* Gphoto Backend */,
-				90FC2F3C17BCF2BF00F2EFB4 /* OCDeviceManager.h */,
-				90FC2F3D17BCF2BF00F2EFB4 /* OCDeviceManager.m */,
-				908D567717C24D65007828A9 /* OCDeviceManager+Private.h */,
-				90FC2F3F17BCF8A500F2EFB4 /* OCDevice.h */,
-				90FC2F4017BCF8A500F2EFB4 /* OCDevice.m */,
-				90DF384217EC4A240038214C /* OCDeviceManagerBackend.h */,
 			);
 			name = "Device Mini Framework";
 			sourceTree = "<group>";
@@ -302,6 +320,8 @@
 				90DF383817E9B03B0038214C /* OCGphotoBackend.m in Sources */,
 				90DF384117EC4A010038214C /* OCLocalDeviceBackend.m in Sources */,
 				90DF384817EC8B5E0038214C /* OCGphotoDevice.m in Sources */,
+				9019F21517EF6E8600819072 /* OCDeviceManagerBackend.m in Sources */,
+				9019F21817EF721000819072 /* OCDeviceProxy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

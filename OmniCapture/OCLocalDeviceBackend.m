@@ -13,8 +13,8 @@
 #import "OCLocalDeviceHandle.h"
 
 @interface OCLocalDeviceHandle ()
-+ (id)handleWithOwner:(OCLocalDeviceBackend *)owner ioKitService:(io_service_t)service;
-- (void)subscribeForDeviceEventsWithNotifyPort:(IONotificationPortRef)port;
++ (id)handleWithBackend:(OCLocalDeviceBackend *)backend ioKitService:(io_service_t)service;
+- (void)subscribeForEventsWithNotifyPort:(IONotificationPortRef)port;
 @end
 
 @implementation OCLocalDeviceBackend
@@ -31,14 +31,19 @@
         _owner = owner;
         _notifyPort = IONotificationPortCreate(kIOMasterPortDefault);
         IONotificationPortSetDispatchQueue(_notifyPort,
-                                           [self _dispatchQueue]);
+                                           [_owner _dispatchQueue]);
     }
     return self;
 }
 
 - (void)dealloc
 {
-    IONotificationPortDestroy(_notifyPort);
+    if (_matchIter) {
+        NSLog(@"OCLocalDeviceBackend: should invalidate before dealloc");
+        IOObjectRelease(_matchIter);
+    }
+    if (_notifyPort)
+        IONotificationPortDestroy(_notifyPort);
 }
 
 static void callback(void *c, io_iterator_t iter)
@@ -59,42 +64,29 @@ static void callback(void *c, io_iterator_t iter)
     [self _processNotificationsWithIter:_matchIter];
 }
 
-- (void)terminate
+- (void)invalidate
 {
     _dispatchersUsb = nil;
 
     if (_matchIter) {
-        // Establishing IOKit notifications doesn't retain context pointers hence
-        // when context release and notification delivery happens on concurrent threads
-        // certain lifetime management issues can arise.
-        OCDeviceManager *owner = _owner;
-        [owner _notifyTerminating:self];
         IOObjectRelease(self->_matchIter);
         self->_matchIter = 0;
-        dispatch_async([self _dispatchQueue], ^{
-            [owner _notifyTerminated:self];
-        });
     }
-}
-
-- (dispatch_queue_t)_dispatchQueue
-{
-    return dispatch_get_main_queue();
 }
 
 - (void)_processNotificationsWithIter:(io_iterator_t)iter
 {
     io_service_t service;
     while ((service = IOIteratorNext(iter))) {
-        OCLocalDeviceHandle *handle = [OCLocalDeviceHandle handleWithOwner:self
-                                                              ioKitService:service];
+        OCLocalDeviceHandle *handle = [OCLocalDeviceHandle handleWithBackend:self
+                                                                ioKitService:service];
 
         if (!_dispatchersUsb)
-            _dispatchersUsb = [_owner _qualifyingDispatchers:@selector(dispatchUsbDevice:)];
+            _dispatchersUsb = [_owner _qualifyingDispatchersBySelector:@selector(localDeviceBackend:dispatchUsbDevice:)];
         
         for (id<OCUsbDeviceDispatcher> dispatcher in _dispatchersUsb) {
-            if ([dispatcher dispatchUsbDevice:handle]) {
-                [handle subscribeForDeviceEventsWithNotifyPort:_notifyPort];
+            if ([dispatcher localDeviceBackend:self dispatchUsbDevice:handle]) {
+                [handle subscribeForEventsWithNotifyPort:_notifyPort];
                 break;
             }
         }
@@ -103,30 +95,25 @@ static void callback(void *c, io_iterator_t iter)
     }
 }
 
-- (void)_notifyTerminating:(id)sender
+- (OCDeviceManager *)owner
 {
-    [_owner _notifyTerminating:sender];
-}
-
-- (void)_notifyTerminated:(id)sender
-{
-    [_owner _notifyTerminated:sender];
+    return _owner;
 }
 
 @end
 
 @implementation OCLocalDeviceHandle
 
-+ (id)handleWithOwner:(OCLocalDeviceBackend *)owner ioKitService:(io_service_t)service
++ (id)handleWithBackend:(OCLocalDeviceBackend *)backend ioKitService:(io_service_t)service
 {
-    return [[OCLocalDeviceHandle alloc] initWithOwner:owner ioKitService:service];
+    return [[OCLocalDeviceHandle alloc] initWithBackend:backend ioKitService:service];
 }
 
-- (id)initWithOwner:(OCLocalDeviceBackend *)owner ioKitService:(io_service_t)service
+- (id)initWithBackend:(OCLocalDeviceBackend *)backend ioKitService:(io_service_t)service
 {
     self = [super init];
     if (self) {
-        _owner = owner;
+        _backend = backend;
         _service = service;
         IOObjectRetain(service);
         
@@ -142,7 +129,7 @@ static void callback(void *c, io_iterator_t iter)
     return self;
 }
 
-- (void)terminate
+- (void)close
 {
     @synchronized (self) {
         if (_service) {
@@ -153,22 +140,26 @@ static void callback(void *c, io_iterator_t iter)
         if (!_notification)
             return;
         
-        // see notes in OCLocalDeviceBackend terminate:
-        OCLocalDeviceBackend *owner = _owner;
-        io_object_t notification = _notification;
+        // Establishing IOKit notifications doesn't retain context pointers hence
+        // when context release and notification delivery happens on concurrent threads
+        // certain lifetime management issues can arise.
+        IOObjectRelease(_notification);
         _notification = 0;
-        [owner _notifyTerminating:self];
-        dispatch_async([_owner _dispatchQueue], ^{
-            IOObjectRelease(notification);
-            [owner _notifyTerminated:self];
+        OCDeviceManager *manager = [_backend owner];
+        [manager _asyncCleanupPending:self];
+        dispatch_async([manager _dispatchQueue], ^{
+            // important! capturing self in block, hence concurrent callback2 won't crash
+            [manager _asyncCleanupCompleted:self];
         });
     }
 }
 
 - (void)dealloc
 {
-    if (_notification)
+    if (_notification) {
+        NSLog(@"OCLocalDeviceHandle: should close before dealloc");
         IOObjectRelease(_notification);
+    }
     if (_service)
         IOObjectRelease(_service);
 }
@@ -177,10 +168,10 @@ static void callback2(void *user, io_service_t service, natural_t msgType, void 
 {
     OCLocalDeviceHandle *handle = (__bridge id)user;
     if (msgType == kIOMessageServiceIsTerminated)
-        [[handle delegate] deviceDidDisconnect:handle];
+        [[handle delegate] localDeviceHandleDidClose:handle];
 }
 
-- (void)subscribeForDeviceEventsWithNotifyPort:(IONotificationPortRef)port
+- (void)subscribeForEventsWithNotifyPort:(IONotificationPortRef)port
 {
     kern_return_t kr;
     kr = IOServiceAddInterestNotification(port,
