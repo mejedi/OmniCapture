@@ -24,6 +24,7 @@
 @property (readonly) NSString *key;
 
 @property (readwrite, copy) NSString *name;
+@property (readwrite, copy) NSString *vendor;
 
 // When the associated device disconnects isAvailable is set to NO.  If the
 // device ever comes back isAvailable is flipped back to YES.
@@ -32,6 +33,7 @@
 // The object should be fully initialized before doing that.
 @property (readwrite) BOOL isAvailable;
 
-@property (readwrite) BOOL error;
+@property (readwrite) BOOL isInitializing;
+@property (readwrite) BOOL didFailToInitialize;
 
 @end

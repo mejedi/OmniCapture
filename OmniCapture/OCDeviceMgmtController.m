@@ -88,6 +88,7 @@
 - (IBAction)removeDevBtnAction:(id)sender {
     OCDevice *victim = [[[self deviceManager] enumeratorOfDevices] nextObject];
     if (victim) {
+        [victim invalidate];
         [victim _unregister];
     }
 }

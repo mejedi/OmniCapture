@@ -2,7 +2,7 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1080</int>
-		<string key="IBDocument.SystemVersion">12E55</string>
+		<string key="IBDocument.SystemVersion">12F37</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
 		<string key="IBDocument.AppKitVersion">1187.39</string>
 		<string key="IBDocument.HIToolboxVersion">626.00</string>
@@ -1877,6 +1877,7 @@
 									<string key="NSFrame">{{0, 514}, {1158, 148}}</string>
 									<reference key="NSSuperview" ref="1034117624"/>
 									<reference key="NSWindow"/>
+									<reference key="NSNextKeyView"/>
 									<string key="NSReuseIdentifierKey">_NS:13</string>
 									<string key="NSClassName">OCBackgroundView</string>
 								</object>
@@ -2751,6 +2752,7 @@
 							<array class="NSMutableArray" key="NSSubviews"/>
 							<string key="NSFrame">{{225, 4}, {24, 24}}</string>
 							<reference key="NSSuperview" ref="816754740"/>
+							<reference key="NSNextKeyView" ref="394707362"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="884303998">
@@ -2870,7 +2872,6 @@
 							</array>
 							<string key="NSFrame">{{1, 25}, {253, 32}}</string>
 							<reference key="NSNextKeyView" ref="61990615"/>
-							<bool key="NSViewIsLayerTreeHost">YES</bool>
 						</object>
 						<reference key="destination" ref="955303027"/>
 					</object>
@@ -2902,15 +2903,15 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">hidden: objectValue.error</string>
+						<string key="label">hidden: objectValue.didFailToInitialize</string>
 						<reference key="source" ref="268178921"/>
 						<reference key="destination" ref="816754740"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="268178921"/>
 							<reference key="NSDestination" ref="816754740"/>
-							<string key="NSLabel">hidden: objectValue.error</string>
+							<string key="NSLabel">hidden: objectValue.didFailToInitialize</string>
 							<string key="NSBinding">hidden</string>
-							<string key="NSKeyPath">objectValue.error</string>
+							<string key="NSKeyPath">objectValue.didFailToInitialize</string>
 							<object class="NSDictionary" key="NSOptions">
 								<string key="NS.key.0">NSValueTransformerName</string>
 								<string key="NS.object.0">NSNegateBoolean</string>
@@ -2918,7 +2919,23 @@
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">891</int>
+					<int key="connectionID">942</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">animate: objectValue.isInitializing</string>
+						<reference key="source" ref="394707362"/>
+						<reference key="destination" ref="816754740"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="394707362"/>
+							<reference key="NSDestination" ref="816754740"/>
+							<string key="NSLabel">animate: objectValue.isInitializing</string>
+							<string key="NSBinding">animate</string>
+							<string key="NSKeyPath">objectValue.isInitializing</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">945</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -4624,6 +4641,7 @@
 				<string key="860.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="886.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="887.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<dictionary class="NSMutableDictionary" key="895.IBAttributePlaceholdersKey"/>
 				<string key="895.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="899.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="899.userInterfaceItemIdentifier">HeaderCell</string>
@@ -4652,7 +4670,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">941</int>
+			<int key="maxID">947</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

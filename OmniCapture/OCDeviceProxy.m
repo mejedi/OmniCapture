@@ -7,7 +7,7 @@
 //
 
 #import "OCDeviceProxy.h"
-#import "OCDevice+ManagerAdditions.h"
+#import "OCDeviceManager+Private.h"
 
 static NSArray *syncedProperties;
 
@@ -20,7 +20,13 @@ static NSArray *syncedProperties;
 
 + (void)initialize
 {
-    syncedProperties = [NSArray arrayWithObjects:@"isAvailable", @"name", nil];
+    syncedProperties = [NSArray arrayWithObjects:
+                            @"isAvailable",
+                            @"isInitializing",
+                            @"didFailToInitialize",
+                            @"name",
+                            @"vendor",
+                        nil];
 }
 
 - (BOOL)isBound
@@ -55,6 +61,8 @@ static NSArray *syncedProperties;
     _realDevice = nil;
     // reset to a meaningfull state since we are no longer backed by any real
     // device
+    [self setIsInitializing:NO];
+    [self setDidFailToInitialize:NO];
     [self setIsAvailable:NO];
 }
 
@@ -63,7 +71,9 @@ static NSArray *syncedProperties;
                         change:(NSDictionary *)change
                        context:(void *)context
 {
-    [self setValue:[change objectForKey:NSKeyValueChangeNewKey] forKey:keyPath];
+    dispatch_async([[self owner] _dispatchQueue], ^{
+        [self setValue:[change objectForKey:NSKeyValueChangeNewKey] forKey:keyPath];
+    });
 }
 
 - (void)_register
