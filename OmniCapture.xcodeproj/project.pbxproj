@@ -25,6 +25,8 @@
 		90BEAE9017AD385A00CF9A30 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BEAE8F17AD385A00CF9A30 /* AppDelegate.m */; };
 		90BEAE9317AD385A00CF9A30 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90BEAE9117AD385A00CF9A30 /* MainMenu.xib */; };
 		90D1B64017CF1A8A0033869C /* capt0001.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 90D1B63E17CF1A8A0033869C /* capt0001.jpg */; };
+		90D2374F17F36544009C1656 /* OCGphotoLVDistributor.m in Sources */ = {isa = PBXBuildFile; fileRef = 90D2374E17F36544009C1656 /* OCGphotoLVDistributor.m */; };
+		90D2375217F36571009C1656 /* OCGphotoLVLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 90D2375117F36571009C1656 /* OCGphotoLVLayer.m */; };
 		90D5B71F17D757D90019B5FB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90D5B71E17D757D90019B5FB /* QuartzCore.framework */; };
 		90DF382E17DB6F7A0038214C /* big-camera-fixed.icns in Resources */ = {isa = PBXBuildFile; fileRef = 90DF382D17DB6F7A0038214C /* big-camera-fixed.icns */; };
 		90DF383117DDF8560038214C /* NSOutlineView+OCExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 90DF383017DDF8560038214C /* NSOutlineView+OCExtensions.m */; };
@@ -47,7 +49,7 @@
 		9019F21617EF721000819072 /* OCDeviceProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCDeviceProxy.h; sourceTree = "<group>"; };
 		9019F21717EF721000819072 /* OCDeviceProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCDeviceProxy.m; sourceTree = "<group>"; };
 		9019F21917EF849600819072 /* OCDevice+ManagerAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCDevice+ManagerAdditions.h"; sourceTree = "<group>"; };
-		9019F21D17F05FB600819072 /* libgphoto2_port.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgphoto2_port.dylib; path = ../../../usr/local/lib/libgphoto2_port.dylib; sourceTree = "<group>"; };
+		9019F21D17F05FB600819072 /* libgphoto2_port.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgphoto2_port.dylib; path = /usr/local/lib/libgphoto2_port.dylib; sourceTree = "<absolute>"; };
 		905EF90D17B1535D00B8F80E /* OCBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCBackgroundView.h; sourceTree = "<group>"; };
 		905EF90E17B1535D00B8F80E /* OCBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCBackgroundView.m; sourceTree = "<group>"; };
 		905EF91017B157E000B8F80E /* OCLayoutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCLayoutController.h; sourceTree = "<group>"; };
@@ -69,6 +71,10 @@
 		90BEAE8F17AD385A00CF9A30 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		90BEAE9217AD385A00CF9A30 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		90D1B63F17CF1A8A0033869C /* en */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = en; path = en.lproj/capt0001.jpg; sourceTree = "<group>"; };
+		90D2374D17F36544009C1656 /* OCGphotoLVDistributor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCGphotoLVDistributor.h; sourceTree = "<group>"; };
+		90D2374E17F36544009C1656 /* OCGphotoLVDistributor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCGphotoLVDistributor.m; sourceTree = "<group>"; };
+		90D2375017F36571009C1656 /* OCGphotoLVLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCGphotoLVLayer.h; sourceTree = "<group>"; };
+		90D2375117F36571009C1656 /* OCGphotoLVLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCGphotoLVLayer.m; sourceTree = "<group>"; };
 		90D5B71E17D757D90019B5FB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		90DF382D17DB6F7A0038214C /* big-camera-fixed.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "big-camera-fixed.icns"; sourceTree = "<group>"; };
 		90DF382F17DDF8560038214C /* NSOutlineView+OCExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSOutlineView+OCExtensions.h"; sourceTree = "<group>"; };
@@ -124,7 +130,6 @@
 		90BEAE7017AD385900CF9A30 = {
 			isa = PBXGroup;
 			children = (
-				9019F21D17F05FB600819072 /* libgphoto2_port.dylib */,
 				90BEAE8217AD385A00CF9A30 /* OmniCapture */,
 				90BEAE7B17AD385900CF9A30 /* Frameworks */,
 				90BEAE7A17AD385900CF9A30 /* Products */,
@@ -144,6 +149,7 @@
 			children = (
 				90DF383C17E9C0B70038214C /* IOKit.framework */,
 				90DF383A17E9B7DD0038214C /* libgphoto2.dylib */,
+				9019F21D17F05FB600819072 /* libgphoto2_port.dylib */,
 				90D5B71E17D757D90019B5FB /* QuartzCore.framework */,
 				90BEAE7C17AD385A00CF9A30 /* Cocoa.framework */,
 				90BEAE7E17AD385A00CF9A30 /* Other Frameworks */,
@@ -166,7 +172,7 @@
 			children = (
 				90BEAE8317AD385A00CF9A30 /* Supporting Files */,
 				90DF383517E21E0A0038214C /* Misc Helpers */,
-				90DF383417E21DCA0038214C /* Device Mini Framework */,
+				90DF383417E21DCA0038214C /* Device Manager Framework */,
 				90BEAE8E17AD385A00CF9A30 /* AppDelegate.h */,
 				90BEAE8F17AD385A00CF9A30 /* AppDelegate.m */,
 				90BEAE9117AD385A00CF9A30 /* MainMenu.xib */,
@@ -198,7 +204,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		90DF383417E21DCA0038214C /* Device Mini Framework */ = {
+		90DF383417E21DCA0038214C /* Device Manager Framework */ = {
 			isa = PBXGroup;
 			children = (
 				90FC2F3C17BCF2BF00F2EFB4 /* OCDeviceManager.h */,
@@ -207,7 +213,7 @@
 				90DF383E17EB2CC70038214C /* Local Device Backend */,
 				90DF383917E9B0590038214C /* Gphoto Backend */,
 			);
-			name = "Device Mini Framework";
+			name = "Device Manager Framework";
 			sourceTree = "<group>";
 		};
 		90DF383517E21E0A0038214C /* Misc Helpers */ = {
@@ -228,6 +234,10 @@
 				90DF383717E9B03B0038214C /* OCGphotoBackend.m */,
 				90DF384617EC8B5D0038214C /* OCGphotoDevice.h */,
 				90DF384717EC8B5E0038214C /* OCGphotoDevice.m */,
+				90D2374D17F36544009C1656 /* OCGphotoLVDistributor.h */,
+				90D2374E17F36544009C1656 /* OCGphotoLVDistributor.m */,
+				90D2375017F36571009C1656 /* OCGphotoLVLayer.h */,
+				90D2375117F36571009C1656 /* OCGphotoLVLayer.m */,
 			);
 			name = "Gphoto Backend";
 			sourceTree = "<group>";
@@ -326,6 +336,8 @@
 				90DF384817EC8B5E0038214C /* OCGphotoDevice.m in Sources */,
 				9019F21517EF6E8600819072 /* OCDeviceManagerBackend.m in Sources */,
 				9019F21817EF721000819072 /* OCDeviceProxy.m in Sources */,
+				90D2374F17F36544009C1656 /* OCGphotoLVDistributor.m in Sources */,
+				90D2375217F36571009C1656 /* OCGphotoLVLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

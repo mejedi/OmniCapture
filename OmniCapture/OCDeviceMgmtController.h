@@ -29,6 +29,10 @@
 @property (nonatomic) OCDeviceManager *deviceManager;
 @property (weak) IBOutlet NSOutlineView *devOutlineView;
 @property (strong) IBOutlet NSPopover *errorPopover;
+@property (weak) IBOutlet NSView *previewFrame;
+
+@property (readwrite) OCDevice *selectedDevice;
+
 
 - (IBAction)addDevBtnAction:(id)sender;
 - (IBAction)removeDevBtnAction:(id)sender;

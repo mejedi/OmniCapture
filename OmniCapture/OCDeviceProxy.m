@@ -90,4 +90,9 @@ static NSArray *syncedProperties;
     [_realDevice invalidate];
 }
 
+- (CALayer *)createLiveViewLayer
+{
+    return [_realDevice createLiveViewLayer];
+}
+
 @end

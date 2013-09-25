@@ -33,4 +33,18 @@
 {
 }
 
+- (CALayer *)createLiveViewLayer
+{
+    return nil;
+}
+
+- (BOOL)isReady
+{
+    return _isAvailable && !_isInitializing && !_didFailToInitialize;
+}
+
++ (NSSet *)keyPathsForValuesAffectingIsReady {
+    return [NSSet setWithObjects:@"isAvailable", @"isInitializing", @"didFailToInitialize", nil];
+}
+
 @end

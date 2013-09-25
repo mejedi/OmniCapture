@@ -1714,39 +1714,15 @@
 													<reference key="NSNextResponder" ref="885061683"/>
 													<int key="NSvFlags">256</int>
 													<array class="NSMutableArray" key="NSSubviews">
-														<object class="NSImageView" id="764130016">
+														<object class="NSCustomView" id="173732156">
 															<reference key="NSNextResponder" ref="347836738"/>
 															<int key="NSvFlags">274</int>
-															<array class="NSMutableArray" key="NSSubviews"/>
-															<set class="NSMutableSet" key="NSDragTypes">
-																<string>Apple PDF pasteboard type</string>
-																<string>Apple PICT pasteboard type</string>
-																<string>Apple PNG pasteboard type</string>
-																<string>NSFilenamesPboardType</string>
-																<string>NeXT Encapsulated PostScript v1.2 pasteboard type</string>
-																<string>NeXT TIFF v4.0 pasteboard type</string>
-															</set>
-															<string key="NSFrame">{{17, 17}, {612, 278}}</string>
+															<string key="NSFrameSize">{646, 295}</string>
 															<reference key="NSSuperview" ref="347836738"/>
 															<reference key="NSWindow"/>
 															<reference key="NSNextKeyView" ref="644453094"/>
 															<string key="NSReuseIdentifierKey">_NS:9</string>
-															<bool key="NSEnabled">YES</bool>
-															<object class="NSImageCell" key="NSCell" id="1033516360">
-																<int key="NSCellFlags">134217728</int>
-																<int key="NSCellFlags2">33554432</int>
-																<object class="NSCustomResource" key="NSContents">
-																	<string key="NSClassName">NSImage</string>
-																	<string key="NSResourceName">capt0001</string>
-																</object>
-																<string key="NSCellIdentifier">_NS:9</string>
-																<int key="NSAlign">1</int>
-																<int key="NSScale">0</int>
-																<int key="NSStyle">0</int>
-																<bool key="NSAnimates">NO</bool>
-															</object>
-															<bool key="NSAllowsLogicalLayoutDirection">NO</bool>
-															<bool key="NSEditable">YES</bool>
+															<string key="NSClassName">NSView</string>
 														</object>
 														<object class="NSButton" id="601473444">
 															<reference key="NSNextResponder" ref="347836738"/>
@@ -1755,7 +1731,7 @@
 															<string key="NSFrame">{{256, 297}, {134, 39}}</string>
 															<reference key="NSSuperview" ref="347836738"/>
 															<reference key="NSWindow"/>
-															<reference key="NSNextKeyView" ref="764130016"/>
+															<reference key="NSNextKeyView" ref="173732156"/>
 															<string key="NSReuseIdentifierKey">_NS:22</string>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSButtonCell" key="NSCell" id="764018062">
@@ -2719,6 +2695,22 @@
 					<int key="connectionID">772</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: self.selectedDevice.isReady</string>
+						<reference key="source" ref="601473444"/>
+						<reference key="destination" ref="830602742"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="601473444"/>
+							<reference key="NSDestination" ref="830602742"/>
+							<string key="NSLabel">enabled: self.selectedDevice.isReady</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">self.selectedDevice.isReady</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">966</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">addDevBtnAction:</string>
 						<reference key="source" ref="830602742"/>
@@ -2793,6 +2785,14 @@
 						<reference key="destination" ref="437939030"/>
 					</object>
 					<int key="connectionID">937</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">previewFrame</string>
+						<reference key="source" ref="830602742"/>
+						<reference key="destination" ref="173732156"/>
+					</object>
+					<int key="connectionID">953</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -4097,7 +4097,7 @@
 						<reference key="object" ref="347836738"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="601473444"/>
-							<reference ref="764130016"/>
+							<reference ref="173732156"/>
 						</array>
 						<reference key="parent" ref="885061683"/>
 						<string key="objectName">Content Area</string>
@@ -4204,19 +4204,6 @@
 						<int key="objectID">819</int>
 						<reference key="object" ref="731852876"/>
 						<reference key="parent" ref="524325893"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">859</int>
-						<reference key="object" ref="764130016"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="1033516360"/>
-						</array>
-						<reference key="parent" ref="347836738"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">860</int>
-						<reference key="object" ref="1033516360"/>
-						<reference key="parent" ref="764130016"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">905</int>
@@ -4368,6 +4355,11 @@
 						<int key="objectID">887</int>
 						<reference key="object" ref="884303998"/>
 						<reference key="parent" ref="268178921"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">952</int>
+						<reference key="object" ref="173732156"/>
+						<reference key="parent" ref="347836738"/>
 					</object>
 				</array>
 			</object>
@@ -4637,8 +4629,6 @@
 				<real value="0.0" key="842.IBViewIntegration.shadowOffsetHeight"/>
 				<real value="0.0" key="842.IBViewIntegration.shadowOffsetWidth"/>
 				<string key="843.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="859.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="860.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="886.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="887.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<dictionary class="NSMutableDictionary" key="895.IBAttributePlaceholdersKey"/>
@@ -4665,12 +4655,13 @@
 				</array>
 				<string key="92.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="922.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="952.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">947</int>
+			<int key="maxID">966</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -4745,6 +4736,7 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="devOutlineView">NSOutlineView</string>
 						<string key="errorPopover">NSPopover</string>
+						<string key="previewFrame">NSView</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<object class="IBToOneOutletInfo" key="devOutlineView">
@@ -4754,6 +4746,10 @@
 						<object class="IBToOneOutletInfo" key="errorPopover">
 							<string key="name">errorPopover</string>
 							<string key="candidateClassName">NSPopover</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="previewFrame">
+							<string key="name">previewFrame</string>
+							<string key="candidateClassName">NSView</string>
 						</object>
 					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -4810,7 +4806,6 @@
 			<string key="NSMenuCheckmark">{11, 11}</string>
 			<string key="NSMenuMixedState">{10, 3}</string>
 			<string key="big-camera-fixed">{32, 32}</string>
-			<string key="capt0001">{256, 192}</string>
 			<string key="warning">{24, 24}</string>
 		</dictionary>
 	</data>

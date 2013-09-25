@@ -41,31 +41,26 @@
         [_groups addObject:[[_OCDeviceGroup alloc] initWithName:@"CAPTURE DEVICES"]];
         
         _devCleanupTimers = [NSMapTable weakToWeakObjectsMapTable];
+        
+        [self addObserver:self
+               forKeyPath:@"selectedDevice.isReady"
+                  options:NSKeyValueObservingOptionNew
+                  context:0];
     }
     return self;
 }
 
-- (void) invalidate
+- (void)dealloc
+{
+    [self removeObserver:self forKeyPath:@"selectedDevice.isReady"];
+}
+
+- (void)invalidate
 {
     [[self deviceManager] invalidate];
 }
 
 - (void)awakeFromNib {
-#if 0
-    OCDeviceManager *manager = [self deviceManager];
-
-    OCDevice *fido = [manager _claimDeviceWithKey:nil class:[OCDevice class]];
-    [fido setName:@"PowerShot A640"];
-    [fido setAvailable:YES];
-    
-    OCDevice *rover = [manager _claimDeviceWithKey:nil class:[OCDevice class]];
-    [rover setName:@"Nikon"];
-    [rover setAvailable:YES];
-    
-    OCDevice *rex = [manager _claimDeviceWithKey:nil class:[OCDevice class]];
-    [rex setName:@"iSight Camera"];
-    [rex setAvailable:YES];
-#endif
     NSOutlineView *outlineView = [self devOutlineView];
     [outlineView reloadData];
     [outlineView expandItem:nil expandChildren:YES];
@@ -221,6 +216,40 @@
     if ([item isKindOfClass:[_OCDeviceGroup class]])
         return NO;
     return YES;
+}
+
+- (void)outlineViewSelectionDidChange:(NSNotification *)notification
+{
+    NSInteger row = [_devOutlineView selectedRow];
+    id entity = nil;
+    if (row != -1)
+        entity = [_devOutlineView itemAtRow:row];
+    if (![entity isKindOfClass:[OCDevice class]])
+        entity = nil;
+    [self setSelectedDevice:entity];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"selectedDevice.isReady"])
+        [self _setupOrTeardownPreview];
+}
+
+- (void)_setupOrTeardownPreview
+{
+    [_previewFrame setSubviews:[NSArray array]];
+    CALayer *layer = [_selectedDevice createLiveViewLayer];
+
+    if (layer) {
+        [layer setContentsGravity:kCAGravityResizeAspect];
+        
+        NSView *view = [[NSView alloc] init];
+        [view setFrameSize:[_previewFrame frame].size];
+        [view setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+        [view setWantsLayer:YES];
+        [view setLayer:layer];
+        [_previewFrame addSubview:view];
+    }
 }
 
 //

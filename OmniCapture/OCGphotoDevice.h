@@ -10,13 +10,17 @@
 #import "OCDevice.h"
 #import "OCLocalDeviceHandle.h"
 
+@class OCGphotoLVDistributor;
+
 @interface OCGphotoDevice : OCDevice<OCLocalDeviceHandleDelegate> {
     dispatch_once_t _once;
-    dispatch_queue_t _dispatchQueue;
+    dispatch_queue_t _queue;
     GPContext *_gpContext;
     Camera *_gpCamera;
     NSMutableData *_previewBuf;
+    __weak OCGphotoLVDistributor *_lvDistributor;
 }
-+(id)deviceWithOwner:(OCDeviceManager *)owner usbDeviceHandle:(OCLocalDeviceHandle *)handle;
++ (id)deviceWithOwner:(OCDeviceManager *)owner usbDeviceHandle:(OCLocalDeviceHandle *)handle;
+- (id)createPreviewImage;
 @property (readwrite, nonatomic) OCLocalDeviceHandle *handle;
 @end

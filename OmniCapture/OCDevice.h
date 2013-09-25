@@ -15,6 +15,8 @@
 
 - (id)initWithOwner:(OCDeviceManager *)owner key:(NSString *)akey;
 - (void)invalidate;
+- (CALayer *)createLiveViewLayer;
+- (BOOL)isReady;
 
 @property (readonly) __weak OCDeviceManager *owner;
 

@@ -10,6 +10,8 @@
 #import <ImageIO/ImageIO.h>
 #import "OCGphotoDevice.h"
 #import "OCDeviceManager+Private.h"
+#import "OCGphotoLVDistributor.h"
+#import "OCGphotoLVLayer.h"
 
 @implementation OCGphotoDevice
 
@@ -85,10 +87,10 @@
     dispatch_once(&_once, ^{
         NSString *label = [NSString stringWithFormat:@"org.example.acme.%@",
                  [[self name] stringByReplacingOccurrencesOfString:@" " withString:@"-"]];
-        _dispatchQueue = dispatch_queue_create([label cStringUsingEncoding:NSASCIIStringEncoding],
+        _queue = dispatch_queue_create([label cStringUsingEncoding:NSASCIIStringEncoding],
                                                DISPATCH_QUEUE_SERIAL);        
     });
-    return _dispatchQueue;
+    return _queue;
 }
 
 - (void)localDeviceHandleDidClose:(OCLocalDeviceHandle *)handle
@@ -183,17 +185,17 @@ static int _CFDataWriter (void *priv, unsigned char *data, uint64_t *len)
     return GP_OK;
 }
 
-- (CGImageRef)_createPreviewImage
+- (id)createPreviewImage
 {
-    if (!_previewBuf)
-        _previewBuf = [NSMutableData dataWithCapacity:0x10000];
-    else
-        [_previewBuf setLength:0];
+    if (![self isReady])
+        return nil;
+
+    NSMutableData *previewBuf = [NSMutableData dataWithCapacity:0x10000];
 
     int result;
     CameraFileHandler gpHandler = {.write = _CFDataWriter};
     CameraFile *gpFile;
-    result = gp_file_new_from_handler(&gpFile, &gpHandler, (__bridge void *)_previewBuf);
+    result = gp_file_new_from_handler(&gpFile, &gpHandler, (__bridge void *)previewBuf);
     if (result != GP_OK) {
         NSLog(@"gp_file_new_from_handler: %s", gp_result_as_string(result));
         return nil;
@@ -206,10 +208,26 @@ static int _CFDataWriter (void *priv, unsigned char *data, uint64_t *len)
         return nil;
     }
     
-    CGImageSourceRef loader = CGImageSourceCreateWithData((__bridge CFDataRef)_previewBuf, NULL);
+    CGImageSourceRef loader = CGImageSourceCreateWithData((__bridge CFDataRef)previewBuf, NULL);
     CGImageRef image = CGImageSourceCreateImageAtIndex(loader, 0, NULL);
     CFRelease(loader);
-    return image;
+    return CFBridgingRelease(image);
+}
+
+- (CALayer *)createLiveViewLayer
+{
+    if ([self isInitializing] || [self didFailToInitialize])
+        return nil;
+
+    OCGphotoLVDistributor *lvDistributor = _lvDistributor;
+    if (!lvDistributor)
+        lvDistributor = _lvDistributor =
+            [OCGphotoLVDistributor
+             distributorWithGphotoDevice:self
+             mainQueue:[[self owner] _dispatchQueue]
+             workerQueue:[self _dispatchQueue]];
+
+    return [OCGphotoLVLayer layerWithLVDistributor:lvDistributor];
 }
 
 @end
