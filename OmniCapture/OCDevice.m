@@ -47,4 +47,9 @@
     return [NSSet setWithObjects:@"isAvailable", @"isInitializing", @"didFailToInitialize", nil];
 }
 
+- (OCConfig *)copyConfig
+{
+    return nil;
+}
+
 @end

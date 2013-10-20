@@ -25,7 +25,8 @@ static NSArray *syncedProperties;
                             @"isInitializing",
                             @"didFailToInitialize",
                             @"name",
-                            @"vendor",
+                            @"vendorName",
+                            @"productName",
                         nil];
 }
 
@@ -93,6 +94,11 @@ static NSArray *syncedProperties;
 - (CALayer *)createLiveViewLayer
 {
     return [_realDevice createLiveViewLayer];
+}
+
+- (OCConfig *)copyConfig
+{
+    return [_realDevice copyConfig];
 }
 
 @end

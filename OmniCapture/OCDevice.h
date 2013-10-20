@@ -9,14 +9,16 @@
 #import <Foundation/Foundation.h>
 
 @class OCDeviceManager;
+@class OCConfig;
 
 // A capture device: Ex. a digital camera with USB support.
 @interface OCDevice : NSObject 
 
 - (id)initWithOwner:(OCDeviceManager *)owner key:(NSString *)akey;
+- (BOOL)isReady;
 - (void)invalidate;
 - (CALayer *)createLiveViewLayer;
-- (BOOL)isReady;
+- (OCConfig *) copyConfig;
 
 @property (readonly) __weak OCDeviceManager *owner;
 
@@ -26,7 +28,8 @@
 @property (readonly) NSString *key;
 
 @property (readwrite, copy) NSString *name;
-@property (readwrite, copy) NSString *vendor;
+@property (readwrite, copy) NSString *vendorName;
+@property (readwrite, copy) NSString *productName;
 
 // When the associated device disconnects isAvailable is set to NO.  If the
 // device ever comes back isAvailable is flipped back to YES.

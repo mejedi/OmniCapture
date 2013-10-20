@@ -38,7 +38,7 @@
         _serial = 1;
         
         _groups = [NSMutableArray arrayWithCapacity:1];
-        [_groups addObject:[[_OCDeviceGroup alloc] initWithName:@"CAPTURE DEVICES"]];
+        [_groups addObject:[[_OCDeviceGroup alloc] initWithName:@"DEVICES"]];
         
         _devCleanupTimers = [NSMapTable weakToWeakObjectsMapTable];
         
@@ -207,7 +207,7 @@
     if ([item isKindOfClass:[_OCDeviceGroup class]])
         return [_groups indexOfObject:item] == 0 ? 25 : 31;
     if ([item isKindOfClass:[OCDevice class]])
-        return 32;
+        return 24;
     NSLog(@"Unexpected kind of entity in outline view: %@", item);
     return 0;
 }
@@ -229,10 +229,85 @@
     [self setSelectedDevice:entity];
 }
 
+//
+// NSTableViewDelegate
+//
+
+enum ConfigItemClass {
+    kOCConfigItemClassStatic,
+    kOCConfigItemClassInput,
+    kOCConfigItemClassSelect,
+    kOCConfigItemClassCheckBox,
+    kOCConfigItemClassCheckBoxWithOnOffMapping
+};
+
+static enum ConfigItemClass classifyConfigItem(OCConfigItem *item)
+{
+    NSString *style = [item style];
+    if ([style isEqualToString:kOCConfigItemStyleInput]) {
+        return kOCConfigItemClassInput;
+    }
+    if ([style isEqualToString:kOCConfigItemStyleSelect]) {
+        NSArray *domain = [item valuesDomain];
+        if ([domain isEqualToArray:@[@NO,@YES]])
+            return kOCConfigItemClassCheckBox;
+        if ([domain isEqualToArray:@[@"On",@"Off"]]
+            || [domain isEqualToArray:@[@"Off",@"On"]])
+            return kOCConfigItemClassCheckBoxWithOnOffMapping;
+        if ([domain count]<=1)
+            return kOCConfigItemClassStatic;
+        return kOCConfigItemClassSelect;
+    }
+    return kOCConfigItemClassStatic;
+    
+}
+
+- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+    OCConfigItem *item = [[_configArrayController arrangedObjects] objectAtIndex:row];
+    if (![item isKindOfClass:[OCConfigItem class]])
+        return nil;
+    switch (classifyConfigItem(item)) {
+        case kOCConfigItemClassStatic:
+        case kOCConfigItemClassInput:
+            return [_configTableView makeViewWithIdentifier:@"TextCell" owner:self];;
+        case kOCConfigItemClassSelect:
+            return [_configTableView makeViewWithIdentifier:@"SelectCell" owner:self];;
+        case kOCConfigItemClassCheckBox:
+        case kOCConfigItemClassCheckBoxWithOnOffMapping:
+            return [_configTableView makeViewWithIdentifier:@"CheckCell" owner:self];;
+    }
+
+}
+
+- (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
+{
+    OCConfigItem *item = [[_configArrayController arrangedObjects] objectAtIndex:row];
+    if (![item isKindOfClass:[OCConfigItem class]])
+        return 0;
+    switch (classifyConfigItem(item)) {
+        case kOCConfigItemClassStatic:
+        case kOCConfigItemClassInput:
+            return 23;
+        case kOCConfigItemClassSelect:
+            return 25;
+        case kOCConfigItemClassCheckBox:
+        case kOCConfigItemClassCheckBoxWithOnOffMapping:
+            return 23;
+    }
+}
+
+//
+//
+//
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if ([keyPath isEqualToString:@"selectedDevice.isReady"])
+    if ([keyPath isEqualToString:@"selectedDevice.isReady"]) {
         [self _setupOrTeardownPreview];
+        [_selectedDeviceConfig invalidate];
+        [self setSelectedDeviceConfig:[_selectedDevice copyConfig]];
+    }
 }
 
 - (void)_setupOrTeardownPreview
@@ -241,15 +316,65 @@
     CALayer *layer = [_selectedDevice createLiveViewLayer];
 
     if (layer) {
-        [layer setContentsGravity:kCAGravityResizeAspect];
+        //CALayer *mask = [CALayer layer];
         
+        [layer setContentsGravity:kCAGravityResize];
+        //[layer setCornerRadius:6.0];
+        //[layer setMasksToBounds:YES];
+        [layer setShadowOpacity:0.5];
+        [layer setShadowOffset:CGSizeMake(5.0, -5.0)];
+        
+        CALayer *wrapper = [CALayer layer];
+        [wrapper addSublayer:layer];
+        [wrapper setLayoutManager:self];
+
         NSView *view = [[NSView alloc] init];
         [view setFrameSize:[_previewFrame frame].size];
         [view setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
         [view setWantsLayer:YES];
-        [view setLayer:layer];
+        [view setLayer:wrapper];
         [_previewFrame addSubview:view];
     }
+}
+
+- (void)layoutSublayersOfLayer:(CALayer *)container
+{
+    for (CALayer *content in [container sublayers]) {
+        CGRect frame = CGRectInset([container frame], 16.0, 16.0);
+        CGSize contentNaturalSize = [content preferredFrameSize];
+        CGRect contentRect = CGRectZero;
+        if (contentNaturalSize.height!=0.0 && contentNaturalSize.width!=0.0) {
+            CGFloat kx = frame.size.width/contentNaturalSize.width;
+            CGFloat ky = frame.size.height/contentNaturalSize.height;
+            CGFloat k = MIN(MIN(kx, ky), 1.33);
+            CGRect r = CGRectMake(0.0,
+                                  0.0,
+                                  k*contentNaturalSize.width,
+                                  k*contentNaturalSize.height);
+            contentRect = CGRectIntegral(CGRectOffset(r,
+                                                      frame.origin.x + (frame.size.width-r.size.width)*0.5,
+                                                      frame.origin.y + (frame.size.height-r.size.height)*0.95));
+        }
+        [CATransaction begin];
+        [CATransaction setValue:[NSNumber numberWithFloat:0.0f]
+                         forKey:kCATransactionAnimationDuration];
+        [content setFrame:contentRect];
+        [CATransaction commit];
+    }
+}
+
++ (NSSet *)keyPathsForValuesAffectingAppTitle
+{
+    return [NSSet setWithObjects:@"selectedDevice.name", nil];
+}
+
+- (NSString *)appTitle
+{
+    NSString *name = [[self selectedDevice] name];
+    if (!name)
+        return @"OmniCapture";
+    else
+        return [NSString stringWithFormat:@"OmniCapture — %@", name, nil];
 }
 
 //
@@ -281,28 +406,6 @@
 
 - (IBAction)showErrorBtnAction:(id)sender {
     [_errorPopover showRelativeToRect:[sender bounds] ofView:sender preferredEdge:NSMaxYEdge];
-}
-
-- (IBAction)devOutlineViewSingleClickAction:(id)sender {
-    
-    // Usually clicking the empty space in a table view resets selection. But not with
-    // source list highlighting style.  Since we like source list style we had to clear
-    // selection manually.
-    //
-    // Note: clearing selection only when neither Shift nor Cmd modifier keys are pressed.
-    //
-    // TODO: Multiple selection looks ugly in source list style. Switch to regular highlight
-    // style but implement custom selection drawing in NSTableRowView. Get rid of this handler
-    // since it becomes obsolete.
-    if ([sender numberOfSelectedRows] > 0
-        && 0 == ([[NSApp currentEvent] modifierFlags] & (NSShiftKeyMask|NSCommandKeyMask))
-        ) {
-        NSInteger clickedRow = [sender clickedRow];
-        NSOutlineView *outlineView = [self devOutlineView];
-        if (clickedRow < 0 || ![self outlineView:sender shouldSelectItem:[outlineView itemAtRow:clickedRow]]) {
-            [outlineView deselectAll:self];
-        }
-    }
 }
 
 @end

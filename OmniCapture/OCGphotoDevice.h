@@ -19,8 +19,27 @@
     Camera *_gpCamera;
     NSMutableData *_previewBuf;
     __weak OCGphotoLVDistributor *_lvDistributor;
+    // config support
+    CameraWidget *_gpWidgetTree;
+    NSUInteger _configUsers;
+    BOOL _configIsInitializing;
+    BOOL _configDidInitialize;
+    NSArray *_configItems;
+    NSArray *_configSections;
+    NSMutableSet *_configItemsChanged;
+    BOOL _configIsCommitingChanges;
+    BOOL _configDidCommitChanges;
 }
 + (id)deviceWithOwner:(OCDeviceManager *)owner usbDeviceHandle:(OCLocalDeviceHandle *)handle;
 - (id)createPreviewImage;
 @property (readwrite, nonatomic) OCLocalDeviceHandle *handle;
+
+// config support
+@property (readwrite) BOOL configDidInitialize;
+@property (readwrite) BOOL configDidCommitChanges;
+@property (readwrite) NSArray *configItems;
+@property (readwrite) NSArray *configSections;
+- (void)didAddConfigUser:(id)user;
+- (void)didRemoveConfigUser:(id)user;
+
 @end

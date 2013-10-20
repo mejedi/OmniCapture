@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "OCDeviceManager.h"
+#import "OCConfig.h"
 
 // Controls all the device management machinery in the UI, including:
 // - Available device list
@@ -18,7 +19,7 @@
 // - Initiating capture sessions
 //
 @interface OCDeviceMgmtController : NSObject<
-    OCDeviceManagerDelegate, NSOutlineViewDataSource, NSOutlineViewDelegate>
+    OCDeviceManagerDelegate, NSOutlineViewDataSource, NSOutlineViewDelegate, NSTableViewDelegate>
 {
     int _serial;
 
@@ -30,14 +31,15 @@
 @property (weak) IBOutlet NSOutlineView *devOutlineView;
 @property (strong) IBOutlet NSPopover *errorPopover;
 @property (weak) IBOutlet NSView *previewFrame;
+@property (weak) IBOutlet NSTableView *configTableView;
+@property (weak) IBOutlet NSArrayController *configArrayController;
 
 @property (readwrite) OCDevice *selectedDevice;
-
+@property (readwrite) OCConfig *selectedDeviceConfig;
 
 - (IBAction)addDevBtnAction:(id)sender;
 - (IBAction)removeDevBtnAction:(id)sender;
 - (IBAction)showErrorBtnAction:(id)sender;
-- (IBAction)devOutlineViewSingleClickAction:(id)sender;
 
 - (void)invalidate;
 

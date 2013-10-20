@@ -12,6 +12,7 @@
 
 @interface OCGphotoLVLayer : CALayer {
     OCGphotoLVDistributor *_distributor;
+    CGFloat w, h;
 }
 + (id)layerWithLVDistributor:(OCGphotoLVDistributor *)distributor;
 @end

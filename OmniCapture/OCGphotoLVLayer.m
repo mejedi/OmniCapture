@@ -43,8 +43,22 @@ static int magicCookie;
                                     ofObject:object
                                       change:change
                                      context:context];
-    if (object == _distributor && [keyPath isEqualToString:@"lastFrame"])
-        [self setContents:[change objectForKey:NSKeyValueChangeNewKey]];
+    if (object == _distributor && [keyPath isEqualToString:@"lastFrame"]) {
+        id image = [change objectForKey:NSKeyValueChangeNewKey];
+        [self setContents:image];
+        CGFloat w1 = CGImageGetWidth((__bridge CGImageRef)(image));
+        CGFloat h1 = CGImageGetHeight((__bridge CGImageRef)(image));
+        if ((w!=w1 || h!=h1) && w1 <= 100000.0 /* sometimes we get bogus values here */) {
+            w = w1;
+            h = h1;
+            [[self superlayer] setNeedsLayout];
+        }
+    }
 }
 
+- (CGSize)preferredFrameSize
+{
+    // FIXME coordinate space mapping
+    return CGSizeMake(w, h);
+}
 @end

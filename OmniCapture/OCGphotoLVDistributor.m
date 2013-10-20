@@ -31,14 +31,12 @@
         dispatch_resume(timer);
         
         distributor->_captureTimer = timer;
-        NSLog(@"distributor startup");
     }
     return distributor;
 }
 
 - (void)dealloc
 {
-    NSLog(@"distributor teardown");
     if (_captureTimer)
         dispatch_source_cancel(_captureTimer);
 }
