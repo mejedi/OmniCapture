@@ -7,27 +7,64 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		900842DB17D7C02400C462AF /* big-camera.icns in Resources */ = {isa = PBXBuildFile; fileRef = 900842DA17D7C02400C462AF /* big-camera.icns */; };
+		900842DD17D7C08800C462AF /* compact-camera.icns in Resources */ = {isa = PBXBuildFile; fileRef = 900842DC17D7C08800C462AF /* compact-camera.icns */; };
+		900842DF17D7C37900C462AF /* webcam.icns in Resources */ = {isa = PBXBuildFile; fileRef = 900842DE17D7C37900C462AF /* webcam.icns */; };
+		900842E117D7C65200C462AF /* warning.png in Resources */ = {isa = PBXBuildFile; fileRef = 900842E017D7C65200C462AF /* warning.png */; };
+		900842E717D7D2D300C462AF /* baco.icns in Resources */ = {isa = PBXBuildFile; fileRef = 900842E617D7D2D300C462AF /* baco.icns */; };
+		9019F21517EF6E8600819072 /* OCDeviceManagerBackend.m in Sources */ = {isa = PBXBuildFile; fileRef = 9019F21417EF6E8600819072 /* OCDeviceManagerBackend.m */; };
+		9019F21817EF721000819072 /* OCDeviceProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9019F21717EF721000819072 /* OCDeviceProxy.m */; };
+		9019F21E17F05FB600819072 /* libgphoto2_port.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9019F21D17F05FB600819072 /* libgphoto2_port.dylib */; };
+		9024567C17F6185900C9704D /* Rivals in Resources */ = {isa = PBXBuildFile; fileRef = 9024567B17F6185900C9704D /* Rivals */; };
 		905EF90F17B1535D00B8F80E /* OCBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 905EF90E17B1535D00B8F80E /* OCBackgroundView.m */; };
-		905EF91217B157E000B8F80E /* OCMainLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 905EF91117B157E000B8F80E /* OCMainLayoutController.m */; };
-		90958F9C17C29E3C003B6BFA /* OCMainController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90958F9B17C29E3C003B6BFA /* OCMainController.m */; };
+		905EF91217B157E000B8F80E /* OCLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 905EF91117B157E000B8F80E /* OCLayoutController.m */; };
+		9062233218115B8F0033C8BD /* OCConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 9062233118115B8F0033C8BD /* OCConfig.m */; };
+		9062233518133C600033C8BD /* OCButtonCellHack.m in Sources */ = {isa = PBXBuildFile; fileRef = 9062233418133C600033C8BD /* OCButtonCellHack.m */; };
+		90958F9C17C29E3C003B6BFA /* OCDeviceMgmtController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90958F9B17C29E3C003B6BFA /* OCDeviceMgmtController.m */; };
 		90BEAE7D17AD385A00CF9A30 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90BEAE7C17AD385A00CF9A30 /* Cocoa.framework */; };
 		90BEAE8717AD385A00CF9A30 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 90BEAE8517AD385A00CF9A30 /* InfoPlist.strings */; };
 		90BEAE8917AD385A00CF9A30 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BEAE8817AD385A00CF9A30 /* main.m */; };
 		90BEAE8D17AD385A00CF9A30 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 90BEAE8B17AD385A00CF9A30 /* Credits.rtf */; };
 		90BEAE9017AD385A00CF9A30 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BEAE8F17AD385A00CF9A30 /* AppDelegate.m */; };
 		90BEAE9317AD385A00CF9A30 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90BEAE9117AD385A00CF9A30 /* MainMenu.xib */; };
+		90D1B64017CF1A8A0033869C /* capt0001.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 90D1B63E17CF1A8A0033869C /* capt0001.jpg */; };
+		90D2374F17F36544009C1656 /* OCGphotoLVDistributor.m in Sources */ = {isa = PBXBuildFile; fileRef = 90D2374E17F36544009C1656 /* OCGphotoLVDistributor.m */; };
+		90D2375217F36571009C1656 /* OCGphotoLVLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 90D2375117F36571009C1656 /* OCGphotoLVLayer.m */; };
+		90D5B71F17D757D90019B5FB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90D5B71E17D757D90019B5FB /* QuartzCore.framework */; };
+		90DF382E17DB6F7A0038214C /* big-camera-fixed.icns in Resources */ = {isa = PBXBuildFile; fileRef = 90DF382D17DB6F7A0038214C /* big-camera-fixed.icns */; };
+		90DF383117DDF8560038214C /* NSOutlineView+OCExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 90DF383017DDF8560038214C /* NSOutlineView+OCExtensions.m */; };
+		90DF383817E9B03B0038214C /* OCGphotoBackend.m in Sources */ = {isa = PBXBuildFile; fileRef = 90DF383717E9B03B0038214C /* OCGphotoBackend.m */; };
+		90DF383B17E9B7DE0038214C /* libgphoto2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 90DF383A17E9B7DD0038214C /* libgphoto2.dylib */; };
+		90DF383D17E9C0B70038214C /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90DF383C17E9C0B70038214C /* IOKit.framework */; };
+		90DF384117EC4A010038214C /* OCLocalDeviceBackend.m in Sources */ = {isa = PBXBuildFile; fileRef = 90DF384017EC4A010038214C /* OCLocalDeviceBackend.m */; };
+		90DF384817EC8B5E0038214C /* OCGphotoDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 90DF384717EC8B5E0038214C /* OCGphotoDevice.m */; };
 		90FC2F3E17BCF2BF00F2EFB4 /* OCDeviceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 90FC2F3D17BCF2BF00F2EFB4 /* OCDeviceManager.m */; };
 		90FC2F4117BCF8A500F2EFB4 /* OCDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 90FC2F4017BCF8A500F2EFB4 /* OCDevice.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		900842DA17D7C02400C462AF /* big-camera.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "big-camera.icns"; sourceTree = "<group>"; };
+		900842DC17D7C08800C462AF /* compact-camera.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "compact-camera.icns"; sourceTree = "<group>"; };
+		900842DE17D7C37900C462AF /* webcam.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = webcam.icns; sourceTree = "<group>"; };
+		900842E017D7C65200C462AF /* warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = warning.png; sourceTree = "<group>"; };
+		900842E617D7D2D300C462AF /* baco.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = baco.icns; sourceTree = "<group>"; };
+		9019F21417EF6E8600819072 /* OCDeviceManagerBackend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCDeviceManagerBackend.m; sourceTree = "<group>"; };
+		9019F21617EF721000819072 /* OCDeviceProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCDeviceProxy.h; sourceTree = "<group>"; };
+		9019F21717EF721000819072 /* OCDeviceProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCDeviceProxy.m; sourceTree = "<group>"; };
+		9019F21917EF849600819072 /* OCDevice+ManagerAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCDevice+ManagerAdditions.h"; sourceTree = "<group>"; };
+		9019F21D17F05FB600819072 /* libgphoto2_port.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgphoto2_port.dylib; path = /usr/local/lib/libgphoto2_port.dylib; sourceTree = "<absolute>"; };
+		9024567B17F6185900C9704D /* Rivals */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Rivals; sourceTree = "<group>"; };
 		905EF90D17B1535D00B8F80E /* OCBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCBackgroundView.h; sourceTree = "<group>"; };
 		905EF90E17B1535D00B8F80E /* OCBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCBackgroundView.m; sourceTree = "<group>"; };
-		905EF91017B157E000B8F80E /* OCMainLayoutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMainLayoutController.h; sourceTree = "<group>"; };
-		905EF91117B157E000B8F80E /* OCMainLayoutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCMainLayoutController.m; sourceTree = "<group>"; };
+		905EF91017B157E000B8F80E /* OCLayoutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCLayoutController.h; sourceTree = "<group>"; };
+		905EF91117B157E000B8F80E /* OCLayoutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCLayoutController.m; sourceTree = "<group>"; };
+		9062233018115B8F0033C8BD /* OCConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCConfig.h; sourceTree = "<group>"; };
+		9062233118115B8F0033C8BD /* OCConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCConfig.m; sourceTree = "<group>"; };
+		9062233318133C600033C8BD /* OCButtonCellHack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCButtonCellHack.h; sourceTree = "<group>"; };
+		9062233418133C600033C8BD /* OCButtonCellHack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCButtonCellHack.m; sourceTree = "<group>"; };
 		908D567717C24D65007828A9 /* OCDeviceManager+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCDeviceManager+Private.h"; sourceTree = "<group>"; };
-		90958F9A17C29E3C003B6BFA /* OCMainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMainController.h; sourceTree = "<group>"; };
-		90958F9B17C29E3C003B6BFA /* OCMainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCMainController.m; sourceTree = "<group>"; };
+		90958F9A17C29E3C003B6BFA /* OCDeviceMgmtController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCDeviceMgmtController.h; sourceTree = "<group>"; };
+		90958F9B17C29E3C003B6BFA /* OCDeviceMgmtController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCDeviceMgmtController.m; sourceTree = "<group>"; };
 		90BEAE7917AD385900CF9A30 /* OmniCapture.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OmniCapture.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90BEAE7C17AD385A00CF9A30 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		90BEAE7F17AD385A00CF9A30 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -41,6 +78,26 @@
 		90BEAE8E17AD385A00CF9A30 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		90BEAE8F17AD385A00CF9A30 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		90BEAE9217AD385A00CF9A30 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		90D1B63F17CF1A8A0033869C /* en */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = en; path = en.lproj/capt0001.jpg; sourceTree = "<group>"; };
+		90D2374D17F36544009C1656 /* OCGphotoLVDistributor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCGphotoLVDistributor.h; sourceTree = "<group>"; };
+		90D2374E17F36544009C1656 /* OCGphotoLVDistributor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCGphotoLVDistributor.m; sourceTree = "<group>"; };
+		90D2375017F36571009C1656 /* OCGphotoLVLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCGphotoLVLayer.h; sourceTree = "<group>"; };
+		90D2375117F36571009C1656 /* OCGphotoLVLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCGphotoLVLayer.m; sourceTree = "<group>"; };
+		90D5B71E17D757D90019B5FB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		90DF382D17DB6F7A0038214C /* big-camera-fixed.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "big-camera-fixed.icns"; sourceTree = "<group>"; };
+		90DF382F17DDF8560038214C /* NSOutlineView+OCExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSOutlineView+OCExtensions.h"; sourceTree = "<group>"; };
+		90DF383017DDF8560038214C /* NSOutlineView+OCExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSOutlineView+OCExtensions.m"; sourceTree = "<group>"; };
+		90DF383617E9B03B0038214C /* OCGphotoBackend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCGphotoBackend.h; sourceTree = "<group>"; };
+		90DF383717E9B03B0038214C /* OCGphotoBackend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCGphotoBackend.m; sourceTree = "<group>"; };
+		90DF383A17E9B7DD0038214C /* libgphoto2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libgphoto2.dylib; path = /usr/local/lib/libgphoto2.dylib; sourceTree = "<absolute>"; };
+		90DF383C17E9C0B70038214C /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		90DF383F17EC4A010038214C /* OCLocalDeviceBackend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCLocalDeviceBackend.h; sourceTree = "<group>"; };
+		90DF384017EC4A010038214C /* OCLocalDeviceBackend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCLocalDeviceBackend.m; sourceTree = "<group>"; };
+		90DF384217EC4A240038214C /* OCDeviceManagerBackend.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OCDeviceManagerBackend.h; sourceTree = "<group>"; };
+		90DF384317EC7D320038214C /* OCLocalDeviceHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCLocalDeviceHandle.h; sourceTree = "<group>"; };
+		90DF384617EC8B5D0038214C /* OCGphotoDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCGphotoDevice.h; sourceTree = "<group>"; };
+		90DF384717EC8B5E0038214C /* OCGphotoDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCGphotoDevice.m; sourceTree = "<group>"; };
+		90EE06AF17D90EA300465E53 /* Icons */ = {isa = PBXFileReference; lastKnownFileType = text; path = Icons; sourceTree = "<group>"; };
 		90FC2F3C17BCF2BF00F2EFB4 /* OCDeviceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCDeviceManager.h; sourceTree = "<group>"; };
 		90FC2F3D17BCF2BF00F2EFB4 /* OCDeviceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCDeviceManager.m; sourceTree = "<group>"; };
 		90FC2F3F17BCF8A500F2EFB4 /* OCDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCDevice.h; sourceTree = "<group>"; };
@@ -52,13 +109,33 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				90DF383D17E9C0B70038214C /* IOKit.framework in Frameworks */,
+				90D5B71F17D757D90019B5FB /* QuartzCore.framework in Frameworks */,
 				90BEAE7D17AD385A00CF9A30 /* Cocoa.framework in Frameworks */,
+				90DF383B17E9B7DE0038214C /* libgphoto2.dylib in Frameworks */,
+				9019F21E17F05FB600819072 /* libgphoto2_port.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9019F21C17EF924F00819072 /* Device Manager Internals */ = {
+			isa = PBXGroup;
+			children = (
+				90FC2F3D17BCF2BF00F2EFB4 /* OCDeviceManager.m */,
+				9019F21617EF721000819072 /* OCDeviceProxy.h */,
+				9019F21717EF721000819072 /* OCDeviceProxy.m */,
+				908D567717C24D65007828A9 /* OCDeviceManager+Private.h */,
+				90FC2F4017BCF8A500F2EFB4 /* OCDevice.m */,
+				90DF384217EC4A240038214C /* OCDeviceManagerBackend.h */,
+				9019F21417EF6E8600819072 /* OCDeviceManagerBackend.m */,
+				9019F21917EF849600819072 /* OCDevice+ManagerAdditions.h */,
+				9062233118115B8F0033C8BD /* OCConfig.m */,
+			);
+			name = "Device Manager Internals";
+			sourceTree = "<group>";
+		};
 		90BEAE7017AD385900CF9A30 = {
 			isa = PBXGroup;
 			children = (
@@ -79,6 +156,10 @@
 		90BEAE7B17AD385900CF9A30 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				90DF383C17E9C0B70038214C /* IOKit.framework */,
+				90DF383A17E9B7DD0038214C /* libgphoto2.dylib */,
+				9019F21D17F05FB600819072 /* libgphoto2_port.dylib */,
+				90D5B71E17D757D90019B5FB /* QuartzCore.framework */,
 				90BEAE7C17AD385A00CF9A30 /* Cocoa.framework */,
 				90BEAE7E17AD385A00CF9A30 /* Other Frameworks */,
 			);
@@ -98,21 +179,17 @@
 		90BEAE8217AD385A00CF9A30 /* OmniCapture */ = {
 			isa = PBXGroup;
 			children = (
+				9024567B17F6185900C9704D /* Rivals */,
+				90BEAE8317AD385A00CF9A30 /* Supporting Files */,
+				90DF383517E21E0A0038214C /* Misc Helpers */,
+				90DF383417E21DCA0038214C /* Device Manager Framework */,
 				90BEAE8E17AD385A00CF9A30 /* AppDelegate.h */,
 				90BEAE8F17AD385A00CF9A30 /* AppDelegate.m */,
 				90BEAE9117AD385A00CF9A30 /* MainMenu.xib */,
-				905EF91017B157E000B8F80E /* OCMainLayoutController.h */,
-				905EF91117B157E000B8F80E /* OCMainLayoutController.m */,
-				90BEAE8317AD385A00CF9A30 /* Supporting Files */,
-				905EF90D17B1535D00B8F80E /* OCBackgroundView.h */,
-				905EF90E17B1535D00B8F80E /* OCBackgroundView.m */,
-				90FC2F3C17BCF2BF00F2EFB4 /* OCDeviceManager.h */,
-				90FC2F3D17BCF2BF00F2EFB4 /* OCDeviceManager.m */,
-				908D567717C24D65007828A9 /* OCDeviceManager+Private.h */,
-				90FC2F3F17BCF8A500F2EFB4 /* OCDevice.h */,
-				90FC2F4017BCF8A500F2EFB4 /* OCDevice.m */,
-				90958F9A17C29E3C003B6BFA /* OCMainController.h */,
-				90958F9B17C29E3C003B6BFA /* OCMainController.m */,
+				905EF91017B157E000B8F80E /* OCLayoutController.h */,
+				905EF91117B157E000B8F80E /* OCLayoutController.m */,
+				90958F9A17C29E3C003B6BFA /* OCDeviceMgmtController.h */,
+				90958F9B17C29E3C003B6BFA /* OCDeviceMgmtController.m */,
 			);
 			path = OmniCapture;
 			sourceTree = "<group>";
@@ -120,13 +197,72 @@
 		90BEAE8317AD385A00CF9A30 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				90DF382D17DB6F7A0038214C /* big-camera-fixed.icns */,
+				900842E017D7C65200C462AF /* warning.png */,
+				900842DA17D7C02400C462AF /* big-camera.icns */,
+				900842DC17D7C08800C462AF /* compact-camera.icns */,
+				900842DE17D7C37900C462AF /* webcam.icns */,
+				90D1B63E17CF1A8A0033869C /* capt0001.jpg */,
 				90BEAE8417AD385A00CF9A30 /* OmniCapture-Info.plist */,
+				900842E617D7D2D300C462AF /* baco.icns */,
 				90BEAE8517AD385A00CF9A30 /* InfoPlist.strings */,
 				90BEAE8817AD385A00CF9A30 /* main.m */,
 				90BEAE8A17AD385A00CF9A30 /* OmniCapture-Prefix.pch */,
 				90BEAE8B17AD385A00CF9A30 /* Credits.rtf */,
+				90EE06AF17D90EA300465E53 /* Icons */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		90DF383417E21DCA0038214C /* Device Manager Framework */ = {
+			isa = PBXGroup;
+			children = (
+				90FC2F3C17BCF2BF00F2EFB4 /* OCDeviceManager.h */,
+				90FC2F3F17BCF8A500F2EFB4 /* OCDevice.h */,
+				9062233018115B8F0033C8BD /* OCConfig.h */,
+				9019F21C17EF924F00819072 /* Device Manager Internals */,
+				90DF383E17EB2CC70038214C /* Local Device Backend */,
+				90DF383917E9B0590038214C /* Gphoto Backend */,
+			);
+			name = "Device Manager Framework";
+			sourceTree = "<group>";
+		};
+		90DF383517E21E0A0038214C /* Misc Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				905EF90D17B1535D00B8F80E /* OCBackgroundView.h */,
+				905EF90E17B1535D00B8F80E /* OCBackgroundView.m */,
+				90DF382F17DDF8560038214C /* NSOutlineView+OCExtensions.h */,
+				90DF383017DDF8560038214C /* NSOutlineView+OCExtensions.m */,
+				9062233318133C600033C8BD /* OCButtonCellHack.h */,
+				9062233418133C600033C8BD /* OCButtonCellHack.m */,
+			);
+			name = "Misc Helpers";
+			sourceTree = "<group>";
+		};
+		90DF383917E9B0590038214C /* Gphoto Backend */ = {
+			isa = PBXGroup;
+			children = (
+				90DF383617E9B03B0038214C /* OCGphotoBackend.h */,
+				90DF383717E9B03B0038214C /* OCGphotoBackend.m */,
+				90DF384617EC8B5D0038214C /* OCGphotoDevice.h */,
+				90DF384717EC8B5E0038214C /* OCGphotoDevice.m */,
+				90D2374D17F36544009C1656 /* OCGphotoLVDistributor.h */,
+				90D2374E17F36544009C1656 /* OCGphotoLVDistributor.m */,
+				90D2375017F36571009C1656 /* OCGphotoLVLayer.h */,
+				90D2375117F36571009C1656 /* OCGphotoLVLayer.m */,
+			);
+			name = "Gphoto Backend";
+			sourceTree = "<group>";
+		};
+		90DF383E17EB2CC70038214C /* Local Device Backend */ = {
+			isa = PBXGroup;
+			children = (
+				90DF383F17EC4A010038214C /* OCLocalDeviceBackend.h */,
+				90DF384017EC4A010038214C /* OCLocalDeviceBackend.m */,
+				90DF384317EC7D320038214C /* OCLocalDeviceHandle.h */,
+			);
+			name = "Local Device Backend";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -183,6 +319,14 @@
 				90BEAE8717AD385A00CF9A30 /* InfoPlist.strings in Resources */,
 				90BEAE8D17AD385A00CF9A30 /* Credits.rtf in Resources */,
 				90BEAE9317AD385A00CF9A30 /* MainMenu.xib in Resources */,
+				90D1B64017CF1A8A0033869C /* capt0001.jpg in Resources */,
+				900842DB17D7C02400C462AF /* big-camera.icns in Resources */,
+				900842DD17D7C08800C462AF /* compact-camera.icns in Resources */,
+				900842DF17D7C37900C462AF /* webcam.icns in Resources */,
+				900842E117D7C65200C462AF /* warning.png in Resources */,
+				900842E717D7D2D300C462AF /* baco.icns in Resources */,
+				90DF382E17DB6F7A0038214C /* big-camera-fixed.icns in Resources */,
+				9024567C17F6185900C9704D /* Rivals in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,10 +340,20 @@
 				90BEAE8917AD385A00CF9A30 /* main.m in Sources */,
 				90BEAE9017AD385A00CF9A30 /* AppDelegate.m in Sources */,
 				905EF90F17B1535D00B8F80E /* OCBackgroundView.m in Sources */,
-				905EF91217B157E000B8F80E /* OCMainLayoutController.m in Sources */,
+				905EF91217B157E000B8F80E /* OCLayoutController.m in Sources */,
 				90FC2F3E17BCF2BF00F2EFB4 /* OCDeviceManager.m in Sources */,
 				90FC2F4117BCF8A500F2EFB4 /* OCDevice.m in Sources */,
-				90958F9C17C29E3C003B6BFA /* OCMainController.m in Sources */,
+				90958F9C17C29E3C003B6BFA /* OCDeviceMgmtController.m in Sources */,
+				90DF383117DDF8560038214C /* NSOutlineView+OCExtensions.m in Sources */,
+				90DF383817E9B03B0038214C /* OCGphotoBackend.m in Sources */,
+				90DF384117EC4A010038214C /* OCLocalDeviceBackend.m in Sources */,
+				90DF384817EC8B5E0038214C /* OCGphotoDevice.m in Sources */,
+				9019F21517EF6E8600819072 /* OCDeviceManagerBackend.m in Sources */,
+				9019F21817EF721000819072 /* OCDeviceProxy.m in Sources */,
+				90D2374F17F36544009C1656 /* OCGphotoLVDistributor.m in Sources */,
+				90D2375217F36571009C1656 /* OCGphotoLVLayer.m in Sources */,
+				9062233218115B8F0033C8BD /* OCConfig.m in Sources */,
+				9062233518133C600033C8BD /* OCButtonCellHack.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -228,6 +382,14 @@
 				90BEAE9217AD385A00CF9A30 /* en */,
 			);
 			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		90D1B63E17CF1A8A0033869C /* capt0001.jpg */ = {
+			isa = PBXVariantGroup;
+			children = (
+				90D1B63F17CF1A8A0033869C /* en */,
+			);
+			name = capt0001.jpg;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -298,7 +460,9 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OmniCapture/OmniCapture-Prefix.pch";
+				HEADER_SEARCH_PATHS = /usr/local/include;
 				INFOPLIST_FILE = "OmniCapture/OmniCapture-Info.plist";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -310,7 +474,9 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OmniCapture/OmniCapture-Prefix.pch";
+				HEADER_SEARCH_PATHS = /usr/local/include;
 				INFOPLIST_FILE = "OmniCapture/OmniCapture-Info.plist";
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

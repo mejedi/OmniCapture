@@ -9,7 +9,8 @@
 #import <Cocoa/Cocoa.h>
 #import "OCBackgroundView.h"
 
-@interface OCMainLayoutController : NSObject <NSSplitViewDelegate>
+// Controls the layout of main window.
+@interface OCLayoutController : NSObject <NSSplitViewDelegate>
 
 /*
  
@@ -44,10 +45,10 @@
  
 */
 
-@property (weak) IBOutlet OCBackgroundView *contentArea;
-@property (weak) IBOutlet OCBackgroundView *deviceBrowserArea;
-@property (weak) IBOutlet OCBackgroundView *deviceSelectionArea;
-@property (weak) IBOutlet OCBackgroundView *inspectorArea;
-@property (weak) IBOutlet OCBackgroundView *galleryBrowserArea;
+@property (weak) IBOutlet NSView *contentArea;
+@property (weak) IBOutlet NSView *deviceBrowserArea;
+@property (weak) IBOutlet NSView *deviceSelectionArea;
+@property (weak) IBOutlet NSView *inspectorArea;
+@property (weak) IBOutlet NSView *galleryBrowserArea;
 
 @end

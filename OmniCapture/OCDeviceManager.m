@@ -7,123 +7,206 @@
 //
 
 #import "OCDeviceManager.h"
-#import "OCDevice.h"
 #import "OCDeviceManager+Private.h"
+#import "OCDevice.h"
+#import "OCDeviceProxy.h"
+#import "OCLocalDeviceBackend.h"
+#import "OCGphotoBackend.h"
 
 // Key name for KVO notifications
 NSString * const devicesKeyName = @"devices";
-
-// This is necessary to implement a weak collection of devices for reuse.
-// As soon as the device refcount drops down to 0 the device is deallocated even
-// if it is a member of the reuse pool.
-// Reuse pool solves the following problem:
-// 1) It would be a waste to keep all disconnected device instances
-// 2) However if someone is interested in the particular device the instance
-//    should survive. It is reused when that particular device comes back
-//
-@interface OCDeviceReuseNote: NSObject {
-    __weak OCDevice *_device;
-}
-+ (OCDeviceReuseNote *)noteWithDevice:(OCDevice *)adevice;
-@property (weak) OCDevice *device;
-@end
-
-@implementation OCDeviceReuseNote
-+ (OCDeviceReuseNote *)noteWithDevice:(OCDevice *)adevice {
-    OCDeviceReuseNote *note = [[self alloc] init];
-    [note setDevice:adevice];
-    return note;
-}
-@end
 
 @implementation OCDeviceManager
 
 - (id)init {
     self = [super init];
     if (self) {
+        _proxyByKey = [NSMapTable strongToWeakObjectsMapTable];
+        _proxyByDevice = [NSMapTable strongToStrongObjectsMapTable];
         _devices = [NSMutableSet setWithCapacity:0];
-        _reusePool = [NSMutableDictionary dictionaryWithCapacity:0];        
+        _proxies = [NSMutableSet setWithCapacity:0];
+        
+        // init backends
+        _backends = [NSArray arrayWithObjects:
+                        [OCLocalDeviceBackend backendWithOwner:self],
+                        [OCGphotoBackend backendWithOwner:self],
+                     nil];
+        
+        // start backends
+        for (OCDeviceManagerBackend *backend in _backends) {
+            [backend start];
+        }
     }
     return self;
 }
 
 - (NSUInteger)countOfDevices {
-    return [_devices count];
+    return [_proxies count];
 }
 
 - (NSEnumerator *)enumeratorOfDevices {
-    return [_devices objectEnumerator];
+    return [_proxies objectEnumerator];
 }
 
 - (id)memberOfDevices:(id)object {
-    return [_devices member:object];
+    return [_proxies member:object];
 }
 
-- (void)advertiseDevice:(OCDevice *)adevice available:(BOOL)isavail {
-    if ([adevice owner] != self)
-        return NSLog(@"OCDeviceManager advertiseDevice:available: does not own the device");
-    
-    BOOL listed = [_devices containsObject:adevice];
-    
-    // device came online
-    if (isavail == YES && listed == NO) {
-        [self removeDeviceFromReusePool:adevice];
-        
-        NSSet *objects = [NSSet setWithObject:adevice];
-        
-        [self willChangeValueForKey:devicesKeyName
-                    withSetMutation:NSKeyValueUnionSetMutation
-                       usingObjects:objects];
-        
+- (void)_registerDevice:(OCDevice *)adevice
+{
+    @synchronized (self) {
+        if ([_devices containsObject:adevice]) {
+            NSLog(@"OCDeviceManager _registerDevice: already registered");
+            return;
+        }
         [_devices addObject:adevice];
+        NSString *key = [adevice key];
+        OCDeviceProxy *proxy = nil;
+        if (key)
+            proxy = [_proxyByKey objectForKey:key];
+        if (!proxy) {
+            proxy = [OCDeviceProxy proxyWithOwner:self key:key];
+            if (key)
+                [_proxyByKey setObject:proxy forKey:key];
+        }
+        [_proxyByDevice setObject:proxy forKey:adevice];
         
-        [self didChangeValueForKey:devicesKeyName
-                   withSetMutation:NSKeyValueUnionSetMutation
-                      usingObjects:objects];
-        
-        [_delegate deviceDidBecomeAvailable:adevice];
+        [self _asyncCleanupPending:self];
+        dispatch_async([self _dispatchQueue], ^{
+            if ([proxy isBound]) {
+                [proxy unbind];
+            } else {
+                [proxy addObserver:self
+                        forKeyPath:@"isAvailable"
+                           options:(NSKeyValueObservingOptionNew |
+                                      NSKeyValueObservingOptionOld)
+                             context:NULL];
+            }
+            [proxy bindTo:adevice];
+            [self _asyncCleanupCompleted:self];
+        });
     }
-    
-    // device went offline
-    if (isavail == NO && listed == YES) {
-        [_delegate deviceWillBecomeUnavailable:adevice];
-        
-        NSSet *objects = [NSSet setWithObject:adevice];
-        
-        [self willChangeValueForKey:devicesKeyName
-                    withSetMutation:NSKeyValueMinusSetMutation
-                       usingObjects:objects];
-        
+}
+
+- (void)_unregisterDevice:(OCDevice *)adevice
+{
+    @synchronized (self) {
+        if (![_devices containsObject:adevice]) {
+            if (_devices)
+                NSLog(@"OCDeviceManager _unregisterDevice: not registered");
+            return;
+        }
         [_devices removeObject:adevice];
+        OCDeviceProxy *proxy = [_proxyByDevice objectForKey:adevice];
+        [_proxyByDevice removeObjectForKey:adevice];
         
-        [self didChangeValueForKey:devicesKeyName
-                   withSetMutation:NSKeyValueMinusSetMutation
-                      usingObjects:objects];
-        
-        [self addDeviceToReusePool:adevice];
+        [self _asyncCleanupPending:self];
+        dispatch_async([self _dispatchQueue], ^{
+            if ([proxy isBoundTo:adevice]) {
+                [proxy unbind];
+                [proxy removeObserver:self
+                           forKeyPath:@"isAvailable"];
+            }
+            [self _asyncCleanupCompleted:self];
+        });
     }
 }
 
-- (void)addDeviceToReusePool:(OCDevice *)adevice {
-    if ([adevice owner] != self)
-        return NSLog(@"OCDeviceManager addDeviceToReusePool: does not own the device");
-    [_reusePool setObject:[OCDeviceReuseNote noteWithDevice:adevice] forKey:[adevice key]];
-}
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+    if ([keyPath isEqualToString:@"isAvailable"]) {
+        BOOL wasAvailable = [[change objectForKey:NSKeyValueChangeOldKey] boolValue];
+        BOOL isAvailable = [[change objectForKey:NSKeyValueChangeNewKey] boolValue];
+        if (wasAvailable == isAvailable)
+            return;
+        if (isAvailable) {
+            // device came online
+            NSSet *objects = [NSSet setWithObject:object];
+            
+            [self willChangeValueForKey:devicesKeyName
+                        withSetMutation:NSKeyValueUnionSetMutation
+                           usingObjects:objects];
+            
+            [_proxies addObject:object];
+            
+            [self didChangeValueForKey:devicesKeyName
+                       withSetMutation:NSKeyValueUnionSetMutation
+                          usingObjects:objects];
+            
+            [_delegate deviceDidBecomeAvailable:object];
+        } else {
+            // device went offline
+            [_delegate deviceWillBecomeUnavailable:object];
+            
+            NSSet *objects = [NSSet setWithObject:object];
+            
+            [self willChangeValueForKey:devicesKeyName
+                        withSetMutation:NSKeyValueMinusSetMutation
+                           usingObjects:objects];
+            
+            [_proxies removeObject:object];
+            
+            [self didChangeValueForKey:devicesKeyName
+                       withSetMutation:NSKeyValueMinusSetMutation
+                          usingObjects:objects];
 
-- (void)removeDeviceFromReusePool:(OCDevice *)adevice {
-    if ([adevice owner] != self)
-        return NSLog(@"OCDeviceManager removeDeviceFromReusePool: does not own the device");
-    [_reusePool removeObjectForKey:[adevice key]];
-}
-
-- (id)reuseDeviceWithKey:(NSString *)akey class:(Class)class {
-    id adevice = [[_reusePool objectForKey:akey] device];
-    if ([adevice class] == class) {
-        [self removeDeviceFromReusePool:adevice];
-        return adevice;
-    } else {
-        return [[class alloc] initWithOwner:self key:akey];
+        }
     }
+}
+
+- (void)invalidate
+{
+    NSSet *devices = _devices;
+    _devices = nil;
+    for (OCDevice *device in devices) {
+        [device invalidate];
+    }
+    // terminate backends (in reverse order)
+    [_backends enumerateObjectsWithOptions:NSEnumerationReverse
+                                usingBlock:^(OCDeviceManagerBackend *backend, NSUInteger pos, BOOL *stop) {
+                                    [backend invalidate];
+                                }];
+    _backends = nil;
+}
+
+- (dispatch_queue_t)_dispatchQueue
+{
+    return dispatch_get_main_queue();
+}
+
+- (void)_asyncCleanupPending:(id)sender
+{
+}
+
+- (void)_asyncCleanupCompleted:(id)sender
+{
+}
+
+- (NSArray *)_qualifyingDispatchersBySelector:(SEL)selector
+{
+    NSMutableArray *dispatchers = [NSMutableArray arrayWithCapacity:0];
+    for (id backend in _backends) {
+        if ([backend respondsToSelector:selector])
+            [dispatchers addObject:backend];
+    }
+    return [dispatchers copy];
+}
+
+@end
+
+@implementation OCDevice (ManagerAdditions)
+
+- (void)_register
+{
+    [[self owner] _registerDevice:self];
+}
+
+- (void)_unregister
+{
+    [[self owner] _unregisterDevice:self];
 }
 
 @end

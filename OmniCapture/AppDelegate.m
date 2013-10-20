@@ -7,15 +7,22 @@
 //
 
 #import "AppDelegate.h"
+#import "OCDeviceManager.h"
 
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    // Insert code here to initialize your application
+    [[self deviceMgmtController] setDeviceManager:[[OCDeviceManager alloc] init]];
 }
 
-- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication {
+-(void)applicationWillTerminate:(NSNotification *)notification
+{
+    [[self deviceMgmtController] invalidate];
+}
+
+- (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication
+{
     return YES;
 }
 

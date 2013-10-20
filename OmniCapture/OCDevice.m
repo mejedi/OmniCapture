@@ -12,12 +12,8 @@
 
 @implementation OCDevice
 
-- (void)dealloc {
-    [_owner removeDeviceFromReusePool:self];
-}
-
 - (id)init {
-    @throw [NSException exceptionWithName:@"OCBadInitCall"
+    @throw [NSException exceptionWithName:@"OCException"
                                    reason:@"use initWithOwner:key: to init OCDevice"
                                  userInfo:nil];
     return nil;
@@ -29,27 +25,31 @@
         _owner = owner;
         _key = akey;
         _name = @"";
-        _available = NO;
     }
     return self;
 }
 
-- (BOOL)available {
-    return _available;
+- (void)invalidate
+{
 }
 
-- (void)setAvailable:(BOOL)isavail {
-    if (isavail == _available)
-        return;
-    
-    // This is for OCDeviceManagerDelegate to observe the consistent value of isAvailable property.
-    // Delegate receives deviceDidBecomeAvailable: and deviceWillBecomeUnavailable: calls.
-    if (isavail == YES)
-        _available = YES;
-    
-    [_owner advertiseDevice:self available:isavail];
-    
-    _available = isavail;
+- (CALayer *)createLiveViewLayer
+{
+    return nil;
+}
+
+- (BOOL)isReady
+{
+    return _isAvailable && !_isInitializing && !_didFailToInitialize;
+}
+
++ (NSSet *)keyPathsForValuesAffectingIsReady {
+    return [NSSet setWithObjects:@"isAvailable", @"isInitializing", @"didFailToInitialize", nil];
+}
+
+- (OCConfig *)copyConfig
+{
+    return nil;
 }
 
 @end

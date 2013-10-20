@@ -7,10 +7,19 @@
 //
 
 #import "OCDeviceManager.h"
+#import "OCDevice+ManagerAdditions.h"
 
 @interface OCDeviceManager ()
-- (void)advertiseDevice:(OCDevice *)adevice available:(BOOL)isavail;
-- (id)reuseDeviceWithKey:(NSString *)akey class:(Class)class;
-- (void)addDeviceToReusePool:(OCDevice *)adevice;
-- (void)removeDeviceFromReusePool:(OCDevice *)adevice;
+
+// Executes code that can potentially affect the UI on the proper thread
+// (Ex: modifications of KVO-conformant properties)
+- (dispatch_queue_t)_dispatchQueue;
+
+
+// Enables device manager to wait for async termination
+- (void)_asyncCleanupPending:(id)sender;
+- (void)_asyncCleanupCompleted:(id)sender;
+
+// Select a subset of backends (those ones that respond to the given selector)
+- (NSArray *)_qualifyingDispatchersBySelector:(SEL)selector;
 @end
