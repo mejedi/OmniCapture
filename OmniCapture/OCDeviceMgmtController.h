@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "OCDeviceManager.h"
 #import "OCConfig.h"
+#import "OCCaptureWindowController.h"
 
 // Controls all the device management machinery in the UI, including:
 // - Available device list
@@ -25,6 +26,8 @@
 
     NSMutableArray *_groups;
     NSMapTable *_devCleanupTimers;
+    
+    OCCaptureWindowController *_captureController;
 }
 
 @property (nonatomic) OCDeviceManager *deviceManager;
@@ -40,6 +43,7 @@
 - (IBAction)addDevBtnAction:(id)sender;
 - (IBAction)removeDevBtnAction:(id)sender;
 - (IBAction)showErrorBtnAction:(id)sender;
+- (IBAction)startCaptureBtnAction:(id)sender;
 
 - (void)invalidate;
 

@@ -1343,12 +1343,14 @@
 								<array class="NSMutableArray" key="NSSubviews"/>
 								<string key="NSFrame">{{0, 14}, {82, 32}}</string>
 								<reference key="NSSuperview"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="NSEnabled">YES</bool>
 								<object class="NSButtonCell" key="NSCell" id="650274941">
 									<int key="NSCellFlags">67108864</int>
 									<int key="NSCellFlags2">134217728</int>
-									<string key="NSContents">GO!</string>
+									<string key="NSContents">TIMELAPSE</string>
 									<object class="NSFont" key="NSSupport">
 										<string key="NSName">LucidaGrande-Bold</string>
 										<double key="NSSize">11</double>
@@ -1431,12 +1433,12 @@
 							</object>
 						</object>
 					</dictionary>
-					<array class="NSMutableArray" key="NSToolbarIBAllowedItems">
+					<array key="NSToolbarIBAllowedItems">
 						<reference ref="551884575"/>
 						<reference ref="220968243"/>
 						<reference ref="1066883752"/>
 					</array>
-					<array class="NSMutableArray" key="NSToolbarIBDefaultItems">
+					<array key="NSToolbarIBDefaultItems">
 						<reference ref="220968243"/>
 						<reference ref="1066883752"/>
 						<reference ref="220968243"/>
@@ -1663,6 +1665,7 @@
 											<string key="NSFrame">{{20, 20}, {326, 12}}</string>
 											<reference key="NSSuperview" ref="644453094"/>
 											<reference key="NSWindow"/>
+											<reference key="NSNextKeyView"/>
 											<string key="NSReuseIdentifierKey">_NS:9</string>
 											<string key="NSHuggingPriority">{250, 250}</string>
 											<int key="NSpiFlags">24847</int>
@@ -1893,7 +1896,7 @@
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="739176177"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1920, 1058}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<int key="NSWindowCollectionBehavior">128</int>
 				<bool key="NSWindowIsRestorable">YES</bool>
@@ -1929,6 +1932,7 @@
 						<string key="NSFrame">{{-3, 100}, {361, 17}}</string>
 						<reference key="NSSuperview" ref="240698430"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:1535</string>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="834067111">
@@ -2796,6 +2800,14 @@
 						<reference key="destination" ref="289814259"/>
 					</object>
 					<int key="connectionID">1095</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">startCaptureBtnAction:</string>
+						<reference key="source" ref="830602742"/>
+						<reference key="destination" ref="1045728685"/>
+					</object>
+					<int key="connectionID">1146</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -5185,7 +5197,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">1144</int>
+			<int key="maxID">1147</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -5245,6 +5257,7 @@
 						<string key="addDevBtnAction:">id</string>
 						<string key="removeDevBtnAction:">id</string>
 						<string key="showErrorBtnAction:">id</string>
+						<string key="startCaptureBtnAction:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="addDevBtnAction:">
@@ -5257,6 +5270,10 @@
 						</object>
 						<object class="IBActionInfo" key="showErrorBtnAction:">
 							<string key="name">showErrorBtnAction:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="startCaptureBtnAction:">
+							<string key="name">startCaptureBtnAction:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>

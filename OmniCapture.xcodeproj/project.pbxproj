@@ -20,6 +20,8 @@
 		905EF91217B157E000B8F80E /* OCLayoutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 905EF91117B157E000B8F80E /* OCLayoutController.m */; };
 		9062233218115B8F0033C8BD /* OCConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 9062233118115B8F0033C8BD /* OCConfig.m */; };
 		9062233518133C600033C8BD /* OCButtonCellHack.m in Sources */ = {isa = PBXBuildFile; fileRef = 9062233418133C600033C8BD /* OCButtonCellHack.m */; };
+		90622339181514DA0033C8BD /* OCCaptureWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90622337181514DA0033C8BD /* OCCaptureWindowController.m */; };
+		9062233A181514DA0033C8BD /* OCCaptureWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90622338181514DA0033C8BD /* OCCaptureWindowController.xib */; };
 		90958F9C17C29E3C003B6BFA /* OCDeviceMgmtController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90958F9B17C29E3C003B6BFA /* OCDeviceMgmtController.m */; };
 		90BEAE7D17AD385A00CF9A30 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90BEAE7C17AD385A00CF9A30 /* Cocoa.framework */; };
 		90BEAE8717AD385A00CF9A30 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 90BEAE8517AD385A00CF9A30 /* InfoPlist.strings */; };
@@ -62,6 +64,9 @@
 		9062233118115B8F0033C8BD /* OCConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCConfig.m; sourceTree = "<group>"; };
 		9062233318133C600033C8BD /* OCButtonCellHack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCButtonCellHack.h; sourceTree = "<group>"; };
 		9062233418133C600033C8BD /* OCButtonCellHack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCButtonCellHack.m; sourceTree = "<group>"; };
+		90622336181514DA0033C8BD /* OCCaptureWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCCaptureWindowController.h; sourceTree = "<group>"; };
+		90622337181514DA0033C8BD /* OCCaptureWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCCaptureWindowController.m; sourceTree = "<group>"; };
+		90622338181514DA0033C8BD /* OCCaptureWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OCCaptureWindowController.xib; sourceTree = "<group>"; };
 		908D567717C24D65007828A9 /* OCDeviceManager+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OCDeviceManager+Private.h"; sourceTree = "<group>"; };
 		90958F9A17C29E3C003B6BFA /* OCDeviceMgmtController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCDeviceMgmtController.h; sourceTree = "<group>"; };
 		90958F9B17C29E3C003B6BFA /* OCDeviceMgmtController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCDeviceMgmtController.m; sourceTree = "<group>"; };
@@ -186,6 +191,9 @@
 				90BEAE8E17AD385A00CF9A30 /* AppDelegate.h */,
 				90BEAE8F17AD385A00CF9A30 /* AppDelegate.m */,
 				90BEAE9117AD385A00CF9A30 /* MainMenu.xib */,
+				90622336181514DA0033C8BD /* OCCaptureWindowController.h */,
+				90622337181514DA0033C8BD /* OCCaptureWindowController.m */,
+				90622338181514DA0033C8BD /* OCCaptureWindowController.xib */,
 				905EF91017B157E000B8F80E /* OCLayoutController.h */,
 				905EF91117B157E000B8F80E /* OCLayoutController.m */,
 				90958F9A17C29E3C003B6BFA /* OCDeviceMgmtController.h */,
@@ -327,6 +335,7 @@
 				900842E717D7D2D300C462AF /* baco.icns in Resources */,
 				90DF382E17DB6F7A0038214C /* big-camera-fixed.icns in Resources */,
 				9024567C17F6185900C9704D /* Rivals in Resources */,
+				9062233A181514DA0033C8BD /* OCCaptureWindowController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,6 +363,7 @@
 				90D2375217F36571009C1656 /* OCGphotoLVLayer.m in Sources */,
 				9062233218115B8F0033C8BD /* OCConfig.m in Sources */,
 				9062233518133C600033C8BD /* OCButtonCellHack.m in Sources */,
+				90622339181514DA0033C8BD /* OCCaptureWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

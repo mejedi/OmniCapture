@@ -251,9 +251,11 @@ static enum ConfigItemClass classifyConfigItem(OCConfigItem *item)
         NSArray *domain = [item valuesDomain];
         if ([domain isEqualToArray:@[@NO,@YES]])
             return kOCConfigItemClassCheckBox;
+#if 0
         if ([domain isEqualToArray:@[@"On",@"Off"]]
             || [domain isEqualToArray:@[@"Off",@"On"]])
             return kOCConfigItemClassCheckBoxWithOnOffMapping;
+#endif
         if ([domain count]<=1)
             return kOCConfigItemClassStatic;
         return kOCConfigItemClassSelect;
@@ -406,6 +408,14 @@ static enum ConfigItemClass classifyConfigItem(OCConfigItem *item)
 
 - (IBAction)showErrorBtnAction:(id)sender {
     [_errorPopover showRelativeToRect:[sender bounds] ofView:sender preferredEdge:NSMaxYEdge];
+}
+
+- (IBAction)startCaptureBtnAction:(id)sender {
+    if (!_selectedDevice)
+        return;
+    if (!_captureController)
+        _captureController = [[OCCaptureWindowController alloc] init];
+    [_captureController timelapseUsingDevice:[self selectedDevice]];
 }
 
 @end

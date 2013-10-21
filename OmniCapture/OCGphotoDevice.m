@@ -592,6 +592,62 @@ static void convertWidgetTree(CameraWidget *w,
     }
 }
 
+//
+// capture
+//
+
+static int _NSFileHandleWriter (void*priv, unsigned char *data, uint64_t *len)
+{
+    [(__bridge NSFileHandle *)priv writeData:[NSData dataWithBytesNoCopy:data length:*len]];
+    return GP_OK;
+}
+
+static int _dummySize (void*priv, uint64_t *size)
+{
+    *size =0 ;
+    return GP_OK;
+}
+
+- (void)captureImageUsingBlock:(void(^)(NSData *, NSError *))handler
+{
+    if (![self isReady]) {
+        handler(nil, [NSError errorWithDomain:0 code:0 userInfo:nil]);
+        return;
+    }
+    
+    dispatch_async(_queue, ^{
+        NSData *image = nil;
+        NSError *error = nil;
+        CameraFilePath cp;
+        int result = gp_camera_capture(_gpCamera,
+                                       GP_CAPTURE_IMAGE,
+                                       &cp,
+                                       _gpContext);
+        if (result != GP_OK) {
+            ;
+        } else {
+            image = [NSMutableData data];
+            CameraFile *cf;
+            CameraFileHandler cfh = {.write = _CFDataWriter, .size = _dummySize};
+            gp_file_new_from_handler(&cf, &cfh, (__bridge void *)(image));
+            
+            result = gp_camera_file_get(_gpCamera,
+                                        cp.folder,
+                                        cp.name,
+                                        GP_FILE_TYPE_NORMAL,
+                                        cf,
+                                        _gpContext);
+            
+            gp_file_free(cf);
+            gp_camera_file_delete(_gpCamera, cp.folder, cp.name, _gpContext);
+        }
+
+        dispatch_async([[self owner] _dispatchQueue], ^{
+            handler(image, error);
+        });
+    });
+}
+
 @end
 
 @implementation OCGphotoDeviceConfig

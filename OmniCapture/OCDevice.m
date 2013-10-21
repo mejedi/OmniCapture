@@ -52,4 +52,8 @@
     return nil;
 }
 
+- (void)captureImageUsingBlock:(void(^)(NSData *, NSError *))handler
+{
+    handler(nil, nil);
+}
 @end

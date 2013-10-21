@@ -19,6 +19,7 @@
 - (void)invalidate;
 - (CALayer *)createLiveViewLayer;
 - (OCConfig *) copyConfig;
+- (void)captureImageUsingBlock:(void(^)(NSData *, NSError *))handler;
 
 @property (readonly) __weak OCDeviceManager *owner;
 

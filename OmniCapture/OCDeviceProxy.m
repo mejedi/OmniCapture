@@ -101,4 +101,9 @@ static NSArray *syncedProperties;
     return [_realDevice copyConfig];
 }
 
+- (void)captureImageUsingBlock:(void(^)(NSData *, NSError *))handler
+{
+    [_realDevice captureImageUsingBlock:handler];
+}
+
 @end
