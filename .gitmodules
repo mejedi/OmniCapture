@@ -1,0 +1,3 @@
+[submodule "Gphoto2.framework.git"]
+	path = Gphoto2.framework.git
+	url = https://github.com/mejedi/Gphoto2.framework.git
