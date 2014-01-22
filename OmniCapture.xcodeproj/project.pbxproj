@@ -45,6 +45,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		90935F6C188FC27E00739BAA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 90A667351818E8BF00592E25 /* Gphoto2.framework.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 90ADD955181B023E0083A15F;
+			remoteInfo = "icc-yield";
+		};
 		90A667401818E8C000592E25 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 90A667351818E8BF00592E25 /* Gphoto2.framework.xcodeproj */;
@@ -231,6 +238,7 @@
 				90A6674B1818E8C000592E25 /* usb.dylib */,
 				90A6674D1818E8C000592E25 /* libgphoto2.6.dylib */,
 				90A6674F1818E8C000592E25 /* ptp2.dylib */,
+				90935F6D188FC27E00739BAA /* icc-yield */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -423,6 +431,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		90935F6D188FC27E00739BAA /* icc-yield */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "icc-yield";
+			remoteRef = 90935F6C188FC27E00739BAA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		90A667411818E8C000592E25 /* Gphoto2.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -641,7 +656,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OmniCapture/OmniCapture-Prefix.pch";
 				INFOPLIST_FILE = "OmniCapture/OmniCapture-Info.plist";
-				OTHER_LDFLAGS = "-Wl,-rpath,@loader_path/..";
+				OTHER_LDFLAGS = "-Wl,-rpath,@loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -654,7 +669,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "OmniCapture/OmniCapture-Prefix.pch";
 				INFOPLIST_FILE = "OmniCapture/OmniCapture-Info.plist";
-				OTHER_LDFLAGS = "-Wl,-rpath,@loader_path/..";
+				OTHER_LDFLAGS = "-Wl,-rpath,@loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
